@@ -1,49 +1,1131 @@
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@import '@stella-ds/theme/css';
+@import '@stella-ds/react/css';
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+body {
+  min-height: 100vh;
+  overflow-x: hidden;
+  font-family: var(--stella-typography-fontFamily-sans, system-ui, sans-serif);
+  color: var(--stella-color-starlight-primary, #0f172a);
+  color-scheme: light;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background:
+    radial-gradient(circle at 12% 14%, rgba(216, 180, 254, 0.2), transparent 24%),
+    radial-gradient(circle at 86% 10%, rgba(125, 211, 252, 0.18), transparent 20%),
+    linear-gradient(180deg, #f7f7fb 0%, #fdfdff 42%, #f4f7fb 100%);
+  background-attachment: fixed;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }
 
-html {
-  height: 100%;
-}
-
-html,
-body {
-  max-width: 100vw;
-  overflow-x: hidden;
-}
-
-body {
-  min-height: 100%;
-  display: flex;
-  flex-direction: column;
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-* {
-  box-sizing: border-box;
-  padding: 0;
-  margin: 0;
-}
-
 a {
-  color: inherit;
+  color: var(--stella-color-cosmos-600, #4f46e5);
   text-decoration: none;
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
+a:hover {
+  color: var(--stella-color-cosmos-500, #6366f1);
+}
+
+/* ============================================================
+   App Shell
+   ============================================================ */
+.app-section {
+  position: relative;
+}
+
+.app-shell,
+.goal-dialog,
+.goal-select-content,
+.meal-log-dialog,
+.meal-log-select-content {
+  --stella-color-void-base: #f8fafc;
+  --stella-color-void-surface: #ffffff;
+  --stella-color-void-overlay: #ffffff;
+  --stella-color-void-muted: #e2e8f0;
+  --stella-color-void-surface-translucent: rgba(255, 255, 255, 0.88);
+  --stella-color-starlight-primary: #0f172a;
+  --stella-color-starlight-secondary: #475569;
+  --stella-color-starlight-disabled: #94a3b8;
+  --stella-color-starlight-inverse: #ffffff;
+  --stella-shadow-sm: 0 1px 2px 0 rgb(15 23 42 / 0.06);
+  --stella-shadow-base: 0 2px 6px 0 rgb(15 23 42 / 0.08);
+  --stella-shadow-md: 0 8px 18px 0 rgb(15 23 42 / 0.1);
+  --stella-shadow-lg: 0 18px 40px 0 rgb(15 23 42 / 0.14);
+}
+
+.app-shell {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--stella-spacing-4, 1rem);
+  padding: clamp(0.875rem, 2vw, 1.5rem);
+  border-radius: 32px;
+  background: rgba(255, 255, 255, 0.72);
+  border: 1px solid rgba(255, 255, 255, 0.78);
+  box-shadow:
+    0 20px 60px rgba(15, 23, 42, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(20px);
+}
+
+.app-header {
+  align-items: center !important;
+  padding: clamp(1rem, 2vw, 1.25rem) !important;
+  border-radius: 24px;
+  background: linear-gradient(
+    145deg,
+    rgba(255, 255, 255, 0.94) 0%,
+    rgba(249, 246, 255, 0.88) 52%,
+    rgba(240, 249, 255, 0.88) 100%
+  ) !important;
+  border: 1px solid rgba(167, 139, 250, 0.16);
+  box-shadow: 0 12px 32px rgba(94, 72, 160, 0.08);
+}
+
+.app-header-brand {
+  min-width: 0;
+}
+
+.app-header-intro {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--stella-spacing-3, 0.75rem);
+}
+
+.app-mark {
+  width: 44px;
+  height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border-radius: 16px;
+  color: var(--stella-color-nebula-700, #6d28d9);
+  background: linear-gradient(
+    135deg,
+    rgba(243, 232, 255, 0.95) 0%,
+    rgba(224, 242, 254, 0.92) 100%
+  );
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.78);
+}
+
+.app-mark-icon {
+  width: 28px;
+  height: 28px;
+  display: block;
+}
+
+.saved-gallery-tabs {
+  padding-top: var(--stella-spacing-4, 1rem);
+}
+
+.saved-gallery-tabs-list {
+  align-self: flex-start;
+  gap: 0.25rem;
+  padding: 0.3125rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(148, 163, 184, 0.18);
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.04), inset 0 1px 0 rgba(255, 255, 255, 0.82);
+}
+
+.saved-gallery-tabs-trigger {
+  border-radius: 999px !important;
+  color: var(--stella-color-starlight-secondary, #475569);
+  font-weight: 600;
+  transition: background-color 160ms ease, color 160ms ease, box-shadow 160ms ease, border-color 160ms ease;
+  border: 1px solid transparent;
+}
+
+.saved-gallery-tabs-trigger[data-state="inactive"] {
+  background: transparent;
+}
+
+.saved-gallery-tabs-trigger[data-state="active"] {
+  background: rgba(255, 255, 255, 0.98);
+  color: var(--stella-color-starlight-primary, #0f172a);
+  border-color: rgba(148, 163, 184, 0.24);
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.06);
+}
+
+.saved-gallery-tabs-trigger:focus-visible {
+  outline: 2px solid rgba(124, 58, 237, 0.35);
+  outline-offset: 2px;
+}
+
+.saved-gallery-tabs-trigger[data-state="inactive"] .tab-count {
+  background: rgba(226, 232, 240, 0.88);
+  color: var(--stella-color-starlight-secondary, #475569);
+}
+
+.saved-gallery-tabs-trigger[data-state="active"] .tab-count {
+  background: rgba(241, 245, 249, 0.96);
+  color: var(--stella-color-starlight-primary, #0f172a);
+}
+
+.saved-gallery-content {
+  padding-top: var(--stella-spacing-2, 0.5rem);
+}
+
+.saved-gallery-empty {
+  padding-top: var(--stella-spacing-10, 2.5rem);
+  padding-bottom: var(--stella-spacing-10, 2.5rem);
+}
+
+.saved-card-kind {
+  width: fit-content;
+}
+
+.app-header-copy {
+  display: flex;
+  flex-direction: column;
+  gap: var(--stella-spacing-1, 0.25rem);
+  min-width: 0;
+}
+
+.app-header-badge {
+  width: fit-content;
+}
+
+.app-header-note {
+  max-width: 44ch;
+}
+
+.app-header-metrics {
+  flex-wrap: wrap;
+}
+
+button.app-header-action {
+  border-radius: 999px !important;
+  background: rgba(255, 255, 255, 0.72) !important;
+  border: 1px solid rgba(148, 163, 184, 0.18) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.82);
+}
+
+.app-tabs {
+  gap: var(--stella-spacing-3, 0.75rem);
+}
+
+.app-tabs-list {
+  align-self: flex-start;
+  gap: 0.25rem;
+  padding: 0.3125rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.76);
+  border: 1px solid rgba(167, 139, 250, 0.16);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.82);
+}
+
+button.app-tabs-trigger {
+  border-radius: 999px !important;
+  color: var(--stella-color-starlight-secondary, #64748b) !important;
+  transition: background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+}
+
+button.app-tabs-trigger[data-state="active"] {
+  background: linear-gradient(
+    135deg,
+    var(--stella-color-nebula-600, #9333ea) 0%,
+    var(--stella-color-cosmos-600, #4f46e5) 100%
+  ) !important;
+  color: #fff !important;
+  box-shadow: 0 10px 20px rgba(99, 102, 241, 0.2);
+}
+
+button.app-tabs-trigger[data-state="inactive"]:hover {
+  background: rgba(243, 232, 255, 0.72) !important;
+  color: var(--stella-color-nebula-700, #6d28d9) !important;
+}
+
+.app-tabs-content {
+  margin-top: 0 !important;
+  min-height: 0;
+  border-radius: 28px;
+  border: 1px solid rgba(226, 232, 240, 0.88);
+  background: rgba(255, 255, 255, 0.84);
+  box-shadow: 0 18px 40px rgba(15, 23, 42, 0.06);
+}
+
+.app-tabs-content[hidden] {
+  display: none !important;
+}
+
+.app-tabs-content--chat {
+  padding: clamp(1rem, 2.4vw, 1.25rem);
+}
+
+.app-tabs-content--panel {
+  padding: clamp(1rem, 2.4vw, 1.25rem);
+}
+
+/* ============================================================
+   Chat Layout
+   ============================================================ */
+.chat-layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
+  padding: clamp(1rem, 3vw, 2.5rem) 0;
+}
+
+.chat-main {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0 0 var(--stella-spacing-5, 1.25rem);
+  scrollbar-width: thin;
+  scrollbar-color: var(--stella-color-void-overlay) transparent;
+}
+
+.chat-footer {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--stella-spacing-2, 0.5rem);
+  border-top: 1px solid rgba(167, 139, 250, 0.18);
+  padding-top: var(--stella-spacing-4, 1rem);
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(250, 245, 255, 0.8) 36%,
+    rgba(255, 255, 255, 0.96) 100%
+  );
+}
+
+/* ============================================================
+   Chat Window — empty state
+   ============================================================ */
+.chat-window {
+  min-height: 120px;
+}
+
+.chat-window--empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  min-height: 280px;
+}
+
+.chat-welcome {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--stella-spacing-3, 0.75rem);
+  max-width: 380px;
+  padding: var(--stella-spacing-8, 2rem);
+}
+
+.chat-welcome-icon {
+  font-size: 2.5rem;
+  line-height: 1;
+  filter: drop-shadow(0 0 10px rgba(139, 92, 246, 0.2));
+}
+
+/* ============================================================
+   Chat Messages
+   ============================================================ */
+.chat-msg {
+  display: flex;
+  flex-direction: column;
+  gap: var(--stella-spacing-1, 0.25rem);
+}
+
+/* User messages — right-aligned */
+.chat-msg--user {
+  align-items: flex-end;
+}
+
+.chat-bubble--user {
+  background: var(--stella-color-void-overlay, #e8edf5);
+  border: 1px solid var(--stella-color-void-muted, #f1f5f9);
+  border-radius: var(--stella-radius-lg, 12px);
+  border-bottom-right-radius: var(--stella-radius-sm, 4px);
+  padding: var(--stella-spacing-3, 0.75rem) var(--stella-spacing-4, 1rem);
+  max-width: 72%;
+}
+
+.chat-bubble-text {
+  font-size: var(--stella-typography-fontSize-sm, 0.875rem);
+  color: var(--stella-color-starlight-primary, #0f172a);
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* Chef messages — left-aligned, subtle nebula tint (no bar) */
+.chat-msg--assistant {
+  align-items: flex-start;
+}
+
+.chat-chef-label {
+  display: flex;
+  align-items: center;
+  gap: var(--stella-spacing-1, 0.25rem);
+  margin-bottom: var(--stella-spacing-1, 0.25rem);
+  padding-left: var(--stella-spacing-1, 0.25rem);
+}
+
+.chat-chef-icon {
+  width: 0.9rem;
+  height: 0.9rem;
+  display: block;
+  flex-shrink: 0;
+  color: var(--stella-color-nebula-600, #7c3aed);
+}
+
+.chat-chef-name {
+  font-size: var(--stella-typography-fontSize-xs, 0.75rem);
+  font-weight: var(--stella-typography-fontWeight-semibold, 600);
+  color: var(--stella-color-nebula-600, #7c3aed);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.chat-bubble--assistant {
+  background: var(--stella-color-nebula-50, #faf5ff);
+  border: 1px solid var(--stella-color-nebula-200, #e9d5ff);
+  border-radius: var(--stella-radius-lg, 12px);
+  border-top-left-radius: var(--stella-radius-sm, 4px);
+  padding: var(--stella-spacing-4, 1rem) var(--stella-spacing-5, 1.25rem);
+  width: 100%;
+}
+
+/* Streaming cursor */
+.chat-bubble--streaming .chat-markdown > *:last-child::after {
+  content: "▋";
+  display: inline-block;
+  color: var(--stella-color-nebula-500, #a855f7);
+  animation: blink 1s step-end infinite;
+  margin-left: 2px;
+  font-size: 0.8em;
+  vertical-align: baseline;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+/* ============================================================
+   Markdown rendering
+   nebula = chef/AI accents  nova = ingredient bullets  aurora = numeric data
+   cosmos = links only (on <a> above — not mixed here)
+   ============================================================ */
+.chat-markdown {
+  font-size: var(--stella-typography-fontSize-sm, 0.875rem);
+  line-height: 1.75;
+  color: var(--stella-color-starlight-primary, #0f172a);
+}
+
+.md-h1 {
+  font-size: var(--stella-typography-fontSize-xl, 1.25rem);
+  font-weight: var(--stella-typography-fontWeight-bold, 700);
+  color: var(--stella-color-starlight-primary, #0f172a);
+  margin: var(--stella-spacing-5, 1.25rem) 0 var(--stella-spacing-2, 0.5rem);
+  border-bottom: 1px solid var(--stella-color-nebula-200, #e9d5ff);
+  padding-bottom: var(--stella-spacing-2, 0.5rem);
+}
+
+.md-h2 {
+  font-size: var(--stella-typography-fontSize-lg, 1.125rem);
+  font-weight: var(--stella-typography-fontWeight-bold, 700);
+  color: var(--stella-color-nebula-700, #6d28d9);
+  margin: var(--stella-spacing-4, 1rem) 0 var(--stella-spacing-2, 0.5rem);
+}
+
+.md-h3 {
+  font-size: var(--stella-typography-fontSize-base, 1rem);
+  font-weight: var(--stella-typography-fontWeight-semibold, 600);
+  color: var(--stella-color-starlight-primary, #0f172a);
+  margin: var(--stella-spacing-3, 0.75rem) 0 var(--stella-spacing-1, 0.25rem);
+}
+
+.md-h1:first-child,
+.md-h2:first-child,
+.md-h3:first-child {
+  margin-top: 0;
+}
+
+.md-p {
+  margin: 0 0 var(--stella-spacing-2, 0.5rem);
+  color: var(--stella-color-starlight-primary, #0f172a);
+}
+
+.md-p:last-child {
+  margin-bottom: 0;
+}
+
+.md-strong {
+  font-weight: var(--stella-typography-fontWeight-bold, 700);
+  color: var(--stella-color-nebula-700, #6d28d9);
+}
+
+/* Ingredient lists — nova green bullets */
+.md-ul {
+  list-style: none;
+  padding: 0;
+  margin: var(--stella-spacing-2, 0.5rem) 0;
+}
+
+.md-ul .md-li {
+  position: relative;
+  padding-left: var(--stella-spacing-4, 1rem);
+  color: var(--stella-color-starlight-primary, #0f172a);
+  margin-bottom: var(--stella-spacing-1, 0.25rem);
+}
+
+.md-ul .md-li::before {
+  content: "◆";
+  position: absolute;
+  left: 0;
+  color: var(--stella-color-nova-600, #16a34a);
+  font-size: 0.5em;
+  top: 0.45em;
+}
+
+/* Steps — nebula numbered */
+.md-ol {
+  list-style: none;
+  counter-reset: step-counter;
+  padding: 0;
+  margin: var(--stella-spacing-2, 0.5rem) 0;
+}
+
+.md-ol .md-li {
+  counter-increment: step-counter;
+  position: relative;
+  padding-left: var(--stella-spacing-7, 1.75rem);
+  color: var(--stella-color-starlight-primary, #0f172a);
+  margin-bottom: var(--stella-spacing-2, 0.5rem);
+}
+
+.md-ol .md-li::before {
+  content: counter(step-counter);
+  position: absolute;
+  left: 0;
+  width: 1.25rem;
+  height: 1.25rem;
+  background: var(--stella-color-nebula-100, #f3e8ff);
+  border: 1px solid var(--stella-color-nebula-300, #d8b4fe);
+  color: var(--stella-color-nebula-700, #6d28d9);
+  border-radius: 50%;
+  font-size: 0.7em;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  top: 0.1em;
+}
+
+.md-li {
+  line-height: 1.6;
+}
+
+.md-code {
+  background: var(--stella-color-void-surface, #f8fafc);
+  border: 1px solid var(--stella-color-void-overlay, #e2e8f0);
+  color: var(--stella-color-nebula-700, #6d28d9);
+  padding: 0.1em 0.35em;
+  border-radius: var(--stella-radius-sm, 4px);
+  font-family: monospace;
+  font-size: 0.9em;
+}
+
+.md-pre {
+  background: var(--stella-color-void-surface, #f8fafc);
+  border: 1px solid var(--stella-color-void-overlay, #e2e8f0);
+  border-radius: var(--stella-radius-md, 8px);
+  padding: var(--stella-spacing-3, 0.75rem) var(--stella-spacing-4, 1rem);
+  overflow-x: auto;
+  margin: var(--stella-spacing-2, 0.5rem) 0;
+}
+
+.md-pre .md-code-block {
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: 0.85em;
+  line-height: 1.5;
+}
+
+/* Shopping list table */
+.md-table-wrap {
+  overflow-x: auto;
+  margin: var(--stella-spacing-3, 0.75rem) 0;
+  border-radius: var(--stella-radius-md, 8px);
+  border: 1px solid var(--stella-color-void-overlay, #e2e8f0);
+}
+
+.md-table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: var(--stella-typography-fontSize-sm, 0.875rem);
+}
+
+.md-thead {
+  background: var(--stella-color-void-surface, #f8fafc);
+}
+
+.md-th {
+  padding: var(--stella-spacing-2, 0.5rem) var(--stella-spacing-3, 0.75rem);
+  text-align: left;
+  font-weight: var(--stella-typography-fontWeight-semibold, 600);
+  color: var(--stella-color-nebula-700, #6d28d9);
+  border-bottom: 1px solid var(--stella-color-nebula-200, #e9d5ff);
+  white-space: nowrap;
+}
+
+.md-td {
+  padding: var(--stella-spacing-2, 0.5rem) var(--stella-spacing-3, 0.75rem);
+  border-bottom: 1px solid var(--stella-color-void-overlay, #e2e8f0);
+  color: var(--stella-color-starlight-primary, #0f172a);
+}
+
+.md-table tr:last-child .md-td {
+  border-bottom: none;
+}
+
+/* ============================================================
+   Quick Actions — carousel-like chip rail
+   ============================================================ */
+.quick-actions-shell {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--stella-spacing-2, 0.5rem);
+}
+
+.quick-actions {
+  display: flex;
+  gap: var(--stella-spacing-2, 0.5rem);
+  overflow-x: auto;
+  padding: 0.1rem 0.15rem var(--stella-spacing-1, 0.25rem);
+  scrollbar-width: none;
+  scroll-snap-type: x proximity;
+  scroll-padding-inline: 0.15rem;
+}
+
+.quick-actions::-webkit-scrollbar {
+  display: none;
+}
+
+button.quick-actions-nav {
+  width: 2rem;
+  min-width: 2rem;
+  height: 2rem;
+  padding: 0 !important;
+  border-radius: 999px !important;
+  color: var(--stella-color-nebula-700, #6d28d9) !important;
+  border: 1px solid rgba(167, 139, 250, 0.18) !important;
+  background: rgba(255, 255, 255, 0.76) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+button.quick-chip {
+  flex-shrink: 0 !important;
+  scroll-snap-align: start;
+  border-color: var(--stella-color-nova-400, #4ade80) !important;
+  color: var(--stella-color-nova-700, #15803d) !important;
+  border-radius: var(--stella-radius-full, 9999px) !important;
+  font-size: var(--stella-typography-fontSize-xs, 0.75rem) !important;
+}
+
+button.quick-chip:hover:not(:disabled) {
+  background: var(--stella-color-nova-50, #f0fdf4) !important;
+  color: var(--stella-color-nova-800, #166534) !important;
+  border-color: var(--stella-color-nova-500, #22c55e) !important;
+}
+
+/* ============================================================
+   Chat Input
+   ============================================================ */
+.chat-input-row {
+  display: flex;
+  gap: var(--stella-spacing-2, 0.5rem);
+  align-items: flex-end;
+  padding: 0.35rem;
+  border-radius: 20px;
+  background: rgba(248, 250, 252, 0.78);
+  border: 1px solid rgba(226, 232, 240, 0.88);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+.chat-input-row:focus-within {
+  border-color: rgba(167, 139, 250, 0.45);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.9),
+    0 0 0 4px rgba(167, 139, 250, 0.12);
+}
+
+.chat-textarea {
+  flex: 1;
+  background: transparent;
+  color: var(--stella-color-starlight-primary, #0f172a);
+  border: none;
+  border-radius: var(--stella-radius-md, 8px);
+  padding: var(--stella-spacing-3, 0.75rem);
+  font-family: var(--stella-typography-fontFamily-sans, system-ui, sans-serif);
+  font-size: var(--stella-typography-fontSize-sm, 0.875rem);
+  line-height: 1.5;
+  resize: none;
+  min-height: 44px;
+  max-height: 120px;
+  transition: border-color 0.15s ease;
+}
+
+.chat-textarea:focus {
+  outline: none;
+}
+
+.chat-textarea::placeholder {
+  color: var(--stella-color-starlight-disabled, #94a3b8);
+}
+
+.chat-textarea:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ============================================================
+   Save button — Button modifier (nebula outline → nova on saved)
+   ============================================================ */
+button.save-btn {
+  margin-top: var(--stella-spacing-3, 0.75rem) !important;
+  border-color: var(--stella-color-nebula-300, #d8b4fe) !important;
+  color: var(--stella-color-nebula-700, #6d28d9) !important;
+  border-radius: var(--stella-radius-full, 9999px) !important;
+  font-size: var(--stella-typography-fontSize-xs, 0.75rem) !important;
+}
+
+button.save-btn:hover:not(:disabled) {
+  background: var(--stella-color-nebula-50, #faf5ff) !important;
+}
+
+button.save-btn--saved {
+  color: var(--stella-color-nova-700, #15803d) !important;
+  border-color: var(--stella-color-nova-400, #4ade80) !important;
+  cursor: default;
+}
+
+/* ============================================================
+   Goal Dialog
+   ============================================================ */
+.goal-dialog {
+  width: min(640px, calc(100vw - 2rem)) !important;
+  z-index: 80 !important;
+  border-radius: 28px !important;
+  border: 1px solid rgba(203, 213, 225, 0.96) !important;
+  background: #ffffff !important;
+  color: var(--stella-color-starlight-primary, #0f172a) !important;
+  opacity: 1 !important;
+  filter: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  box-shadow: 0 32px 80px rgba(15, 23, 42, 0.22) !important;
+}
+
+.goal-dialog-header {
+  gap: var(--stella-spacing-2, 0.5rem);
+}
+
+.goal-dialog-title,
+.goal-field-label,
+.goal-mode-panel label,
+.goal-preview-label {
+  color: var(--stella-color-starlight-primary, #0f172a) !important;
+  opacity: 1 !important;
+}
+
+.goal-dialog-description {
+  max-width: 46ch;
+  color: var(--stella-color-starlight-secondary, #475569) !important;
+  opacity: 1 !important;
+}
+
+.goal-dialog-form {
+  margin-top: var(--stella-spacing-5, 1.25rem);
+}
+
+.goal-mode-panel,
+.goal-field-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--stella-spacing-2, 0.5rem);
+}
+
+.goal-field-grid {
+  display: grid;
+  gap: var(--stella-spacing-4, 1rem);
+}
+
+.goal-field-grid--two {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.goal-mode-panel {
+  padding: var(--stella-spacing-4, 1rem);
+  border-radius: 18px;
+  border: 1px solid rgba(226, 232, 240, 0.88);
+  background: #f8fafc;
+}
+
+.goal-mode-group {
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.goal-mode-panel label {
+  font-weight: 500;
+}
+
+input.goal-field,
+button.goal-field {
+  background: #ffffff !important;
+  border-color: rgba(203, 213, 225, 0.96) !important;
+  color: var(--stella-color-starlight-primary, #0f172a) !important;
+  opacity: 1 !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+button.goal-field span {
+  color: var(--stella-color-starlight-primary, #0f172a) !important;
+  opacity: 1 !important;
+}
+
+input.goal-field::placeholder {
+  color: #64748b;
+  opacity: 1;
+}
+
+input.goal-field:focus,
+button.goal-field:focus {
+  border-color: rgba(167, 139, 250, 0.55) !important;
+  box-shadow: 0 0 0 4px rgba(167, 139, 250, 0.12) !important;
+}
+
+.goal-select-content {
+  border: 1px solid rgba(203, 213, 225, 0.88) !important;
+  background: #ffffff !important;
+  color: var(--stella-color-starlight-primary, #0f172a) !important;
+  opacity: 1 !important;
+  z-index: 90 !important;
+  max-height: min(280px, var(--radix-select-content-available-height)) !important;
+  overflow-y: auto;
+  box-shadow: 0 18px 40px rgba(15, 23, 42, 0.16) !important;
+}
+
+._dialogTitle_f4b3d0,
+._dialogDescription_869410,
+._close_44e21f,
+._base_c791c6,
+._base_820fe1,
+._input_3faa29,
+._trigger_a4415c,
+._item_712b9d,
+._label_7fdf55,
+._label_978621,
+._dialogFooter_42deb0 {
+  color: var(--stella-color-starlight-primary, #0f172a);
+}
+
+._dialogDescription_869410,
+._color-secondary_2dc690 {
+  color: var(--stella-color-starlight-secondary, #475569);
+}
+
+._color-disabled_31b562 {
+  color: var(--stella-color-starlight-disabled, #94a3b8);
+}
+
+.goal-select-item,
+.goal-select-item span {
+  color: var(--stella-color-starlight-primary, #0f172a) !important;
+  opacity: 1 !important;
+}
+
+.goal-select-content [data-highlighted] {
+  background: rgba(243, 232, 255, 0.92) !important;
+  color: var(--stella-color-nebula-700, #6d28d9) !important;
+}
+
+.goal-preview-card {
+  border: 1px solid rgba(167, 139, 250, 0.18) !important;
+  background: linear-gradient(
+    135deg,
+    rgba(243, 232, 255, 0.72) 0%,
+    rgba(255, 255, 255, 0.92) 100%
+  );
+  opacity: 1 !important;
+  box-shadow: none !important;
+}
+
+.goal-preview-value {
+  color: var(--stella-color-nebula-700, #6d28d9) !important;
+}
+
+.goal-form-error {
+  border-radius: 18px;
+  border: 1px solid rgba(248, 113, 113, 0.24);
+  background: linear-gradient(
+    135deg,
+    rgba(254, 242, 242, 0.96) 0%,
+    rgba(255, 255, 255, 0.98) 100%
+  );
+  padding: var(--stella-spacing-3, 0.75rem) var(--stella-spacing-4, 1rem);
+}
+
+.goal-form-error-text {
+  color: #b91c1c !important;
+}
+
+.goal-dialog-footer {
+  padding-top: var(--stella-spacing-4, 1rem);
+  border-top: 1px solid rgba(226, 232, 240, 0.92);
+}
+
+button.goal-dialog-cancel,
+button.goal-dialog-submit {
+  border-radius: 999px !important;
+}
+
+button.goal-dialog-cancel {
+  background: rgba(255, 255, 255, 0.72) !important;
+  border: 1px solid rgba(203, 213, 225, 0.9) !important;
+}
+
+button.goal-dialog-submit {
+  box-shadow: 0 12px 24px rgba(99, 102, 241, 0.22);
+}
+
+.meal-log-dialog {
+  width: min(560px, calc(100vw - 2rem)) !important;
+  z-index: 80 !important;
+  border-radius: 28px !important;
+  border: 1px solid rgba(203, 213, 225, 0.96) !important;
+  background: #ffffff !important;
+  color: var(--stella-color-starlight-primary, #0f172a) !important;
+  box-shadow: 0 28px 72px rgba(15, 23, 42, 0.2) !important;
+}
+
+.meal-log-dialog-header {
+  gap: var(--stella-spacing-2, 0.5rem);
+}
+
+.meal-log-dialog-title,
+.meal-log-field-label {
+  color: var(--stella-color-starlight-primary, #0f172a) !important;
+}
+
+.meal-log-dialog-description {
+  color: var(--stella-color-starlight-secondary, #475569) !important;
+}
+
+.meal-log-dialog-form {
+  margin-top: var(--stella-spacing-5, 1.25rem);
+}
+
+input.meal-log-field,
+button.meal-log-field {
+  background: #ffffff !important;
+  border-color: rgba(203, 213, 225, 0.96) !important;
+  color: var(--stella-color-starlight-primary, #0f172a) !important;
+  opacity: 1 !important;
+}
+
+button.meal-log-field span {
+  color: var(--stella-color-starlight-primary, #0f172a) !important;
+}
+
+.meal-log-select-content {
+  border: 1px solid rgba(203, 213, 225, 0.88) !important;
+  background: #ffffff !important;
+  color: var(--stella-color-starlight-primary, #0f172a) !important;
+  z-index: 90 !important;
+  max-height: min(280px, var(--radix-select-content-available-height)) !important;
+  overflow-y: auto;
+  box-shadow: 0 18px 40px rgba(15, 23, 42, 0.16) !important;
+}
+
+.meal-log-select-item,
+.meal-log-select-item span {
+  color: var(--stella-color-starlight-primary, #0f172a) !important;
+}
+
+.meal-log-dialog-footer {
+  padding-top: var(--stella-spacing-4, 1rem);
+  border-top: 1px solid rgba(226, 232, 240, 0.92);
+}
+
+button.meal-log-dialog-cancel,
+button.meal-log-dialog-submit {
+  border-radius: 999px !important;
+}
+
+button.meal-log-dialog-submit {
+  box-shadow: 0 12px 24px rgba(99, 102, 241, 0.22);
+}
+
+/* ============================================================
+   Tab count badge
+   ============================================================ */
+.tab-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: var(--stella-spacing-1, 0.25rem);
+  padding: 0 5px;
+  background: var(--stella-color-void-overlay, #e2e8f0);
+  color: var(--stella-color-starlight-secondary, #64748b);
+  border-radius: var(--stella-radius-full, 9999px);
+  font-size: 0.7rem;
+  line-height: 1.6;
+  min-width: 1.2rem;
+}
+
+/* ============================================================
+   Meal Log
+   ============================================================ */
+.meal-log-view {
+  padding-top: var(--stella-spacing-4, 1rem);
+  padding-bottom: var(--stella-spacing-8, 2rem);
+}
+
+.meal-log-add-btn-wrap {
+  margin-bottom: var(--stella-spacing-4, 1rem);
+}
+
+.meal-log-day {
+  display: flex;
+  flex-direction: column;
+  gap: var(--stella-spacing-2, 0.5rem);
+}
+
+.meal-log-day-header {
+  display: flex;
+  align-items: center;
+  gap: var(--stella-spacing-3, 0.75rem);
+  padding-bottom: var(--stella-spacing-1, 0.25rem);
+  border-bottom: 1px solid var(--stella-color-void-overlay, #e2e8f0);
+}
+
+.meal-log-day-label {
+  color: var(--stella-color-nebula-700, #6d28d9) !important;
+}
+
+.meal-log-day-total {
+  font-size: var(--stella-typography-fontSize-xs, 0.75rem);
+  color: var(--stella-color-aurora-700, #0e7490);
+}
+
+.meal-log-entry {
+  display: flex;
+  align-items: center;
+  gap: var(--stella-spacing-2, 0.5rem);
+  padding: var(--stella-spacing-2, 0.5rem) var(--stella-spacing-3, 0.75rem);
+  background: var(--stella-color-void-surface, #f8fafc);
+  border-radius: var(--stella-radius-md, 8px);
+}
+
+.meal-log-cal {
+  font-size: var(--stella-typography-fontSize-xs, 0.75rem);
+  color: var(--stella-color-aurora-700, #0e7490);
+  white-space: nowrap;
+}
+
+/* ============================================================
+   Empty states
+   ============================================================ */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: var(--stella-spacing-3, 0.75rem);
+  padding: var(--stella-spacing-12, 3rem) var(--stella-spacing-8, 2rem);
+}
+
+.empty-state-icon {
+  font-size: 2.5rem;
+  line-height: 1;
+}
+
+@media (max-width: 720px) {
+  .app-shell {
+    border-radius: 24px;
+    padding: 0.875rem;
+  }
+
+  .app-header {
+    align-items: flex-start !important;
+  }
+
+  .app-header-intro {
+    width: 100%;
+  }
+
+  .quick-actions-shell {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  button.quick-actions-nav {
+    display: none;
+  }
+
+  .app-header-actions {
+    width: 100%;
+  }
+
+  button.app-header-action {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .app-tabs-list {
+    width: 100%;
+    overflow-x: auto;
+  }
+
+  .app-tabs-content,
+  .app-tabs-content--chat,
+  .app-tabs-content--panel {
+    border-radius: 22px;
+  }
+
+  .chat-input-row {
+    align-items: stretch;
+  }
+
+  .chat-bubble--user {
+    max-width: 88%;
+  }
+
+  .goal-dialog {
+    width: calc(100vw - 1rem) !important;
+  }
+
+  .goal-mode-group {
+    gap: 0.75rem;
+  }
+
+  .goal-field-grid--two {
+    grid-template-columns: 1fr;
   }
 }

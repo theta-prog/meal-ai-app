@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "stella-ds": {
+      "command": "node",
+      "args": ["/home/theta/workspace/stella-ui/packages/mcp/dist/index.js"]
+    }
+  }
+}
