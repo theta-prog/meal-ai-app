@@ -177,6 +177,7 @@ export function ChatApp() {
                   <MealLogView
                     entriesByDate={entriesByDate}
                     sortedDates={sortedDates}
+                    targetCalories={goal?.targetCalories}
                     onDelete={deleteEntry}
                     onAdd={addEntry}
                   />

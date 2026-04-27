@@ -16,7 +16,7 @@ export default function RootLayout({
   return (
     <html lang="ja">
       <body>
-        <Background variant="galaxy" color="mixed" theme="light">
+        <Background variant="solid" color="mixed" theme="light">
           <ClientProviders>{children}</ClientProviders>
         </Background>
       </body>

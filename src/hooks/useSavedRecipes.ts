@@ -17,7 +17,7 @@ export function useSavedRecipes() {
         setItems(
           parsed.map((item) => ({
             ...item,
-            kind: item.kind ?? detectSavedContentKind(item.content),
+            kind: item.kind ?? (detectSavedContentKind(item.content) === "none" ? "recipe" : detectSavedContentKind(item.content)),
           })) as SavedRecipe[]
         );
       }
@@ -34,7 +34,8 @@ export function useSavedRecipes() {
 
   const saveRecipe = useCallback(
     (content: string): SavedRecipe => {
-      const kind = detectSavedContentKind(content);
+      const detected = detectSavedContentKind(content);
+      const kind = detected === "none" ? "recipe" : detected;
       const recipe: SavedRecipe = {
         id: crypto.randomUUID(),
         savedAt: new Date().toISOString(),

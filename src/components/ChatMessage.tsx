@@ -81,7 +81,7 @@ export function ChatMessage({ message, isStreaming, onSave }: ChatMessageProps) 
           </ReactMarkdown>
         </div>
 
-        {!isStreaming && onSave && (
+        {!isStreaming && onSave && savedKind !== "none" && (
           <Button
             variant="outline"
             size="sm"

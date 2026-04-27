@@ -10,6 +10,14 @@
 }
 
 body {
+  --app-accent-text: #9a3412;
+  --app-accent-hover-text: #7c2d12;
+  --app-accent-fill: rgba(255, 247, 237, 0.96);
+  --app-accent-hover: rgba(255, 243, 224, 0.94);
+  --app-accent-border: rgba(217, 119, 6, 0.18);
+  --app-focus-ring: rgba(245, 158, 11, 0.16);
+  --app-panel-border: rgba(214, 211, 209, 0.78);
+  --app-subtle-surface: #faf7f2;
   min-height: 100vh;
   overflow-x: hidden;
   font-family: var(--stella-typography-fontFamily-sans, system-ui, sans-serif);
@@ -19,9 +27,9 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background:
-    radial-gradient(circle at 12% 14%, rgba(216, 180, 254, 0.2), transparent 24%),
-    radial-gradient(circle at 86% 10%, rgba(125, 211, 252, 0.18), transparent 20%),
-    linear-gradient(180deg, #f7f7fb 0%, #fdfdff 42%, #f4f7fb 100%);
+    radial-gradient(circle at 14% 12%, rgba(251, 191, 36, 0.12), transparent 25%),
+    radial-gradient(circle at 84% 14%, rgba(45, 212, 191, 0.1), transparent 24%),
+    linear-gradient(180deg, #fcfbf7 0%, #fffdf8 44%, #f6f7f2 100%);
   background-attachment: fixed;
 }
 
@@ -56,19 +64,19 @@ a:hover {
 .goal-select-content,
 .meal-log-dialog,
 .meal-log-select-content {
-  --stella-color-void-base: #f8fafc;
-  --stella-color-void-surface: #ffffff;
+  --stella-color-void-base: #faf7f2;
+  --stella-color-void-surface: #fffdf8;
   --stella-color-void-overlay: #ffffff;
-  --stella-color-void-muted: #e2e8f0;
-  --stella-color-void-surface-translucent: rgba(255, 255, 255, 0.88);
+  --stella-color-void-muted: #e7e1d6;
+  --stella-color-void-surface-translucent: rgba(255, 253, 248, 0.92);
   --stella-color-starlight-primary: #0f172a;
-  --stella-color-starlight-secondary: #475569;
-  --stella-color-starlight-disabled: #94a3b8;
+  --stella-color-starlight-secondary: #57534e;
+  --stella-color-starlight-disabled: #a8a29e;
   --stella-color-starlight-inverse: #ffffff;
-  --stella-shadow-sm: 0 1px 2px 0 rgb(15 23 42 / 0.06);
-  --stella-shadow-base: 0 2px 6px 0 rgb(15 23 42 / 0.08);
-  --stella-shadow-md: 0 8px 18px 0 rgb(15 23 42 / 0.1);
-  --stella-shadow-lg: 0 18px 40px 0 rgb(15 23 42 / 0.14);
+  --stella-shadow-sm: 0 1px 2px 0 rgb(41 37 36 / 0.04);
+  --stella-shadow-base: 0 3px 8px 0 rgb(41 37 36 / 0.06);
+  --stella-shadow-md: 0 10px 24px 0 rgb(41 37 36 / 0.1);
+  --stella-shadow-lg: 0 18px 42px 0 rgb(41 37 36 / 0.12);
 }
 
 .app-shell {
@@ -78,12 +86,11 @@ a:hover {
   gap: var(--stella-spacing-4, 1rem);
   padding: clamp(0.875rem, 2vw, 1.5rem);
   border-radius: 32px;
-  background: rgba(255, 255, 255, 0.72);
-  border: 1px solid rgba(255, 255, 255, 0.78);
+  background: rgba(255, 252, 246, 0.94);
+  border: 1px solid rgba(231, 225, 214, 0.96);
   box-shadow:
-    0 20px 60px rgba(15, 23, 42, 0.08),
-    inset 0 1px 0 rgba(255, 255, 255, 0.72);
-  backdrop-filter: blur(20px);
+    0 18px 40px rgba(120, 113, 108, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.82);
 }
 
 .app-header {
@@ -91,13 +98,12 @@ a:hover {
   padding: clamp(1rem, 2vw, 1.25rem) !important;
   border-radius: 24px;
   background: linear-gradient(
-    145deg,
-    rgba(255, 255, 255, 0.94) 0%,
-    rgba(249, 246, 255, 0.88) 52%,
-    rgba(240, 249, 255, 0.88) 100%
+    180deg,
+    rgba(255, 255, 255, 0.96) 0%,
+    rgba(252, 249, 242, 0.96) 100%
   ) !important;
-  border: 1px solid rgba(167, 139, 250, 0.16);
-  box-shadow: 0 12px 32px rgba(94, 72, 160, 0.08);
+  border: 1px solid rgba(231, 225, 214, 0.96);
+  box-shadow: 0 10px 26px rgba(120, 113, 108, 0.08);
 }
 
 .app-header-brand {
@@ -118,13 +124,13 @@ a:hover {
   justify-content: center;
   flex-shrink: 0;
   border-radius: 16px;
-  color: var(--stella-color-nebula-700, #6d28d9);
+  color: var(--app-accent-text);
   background: linear-gradient(
     135deg,
-    rgba(243, 232, 255, 0.95) 0%,
-    rgba(224, 242, 254, 0.92) 100%
+    rgba(255, 247, 237, 0.98) 0%,
+    rgba(245, 245, 244, 0.96) 100%
   );
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.78);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.82);
 }
 
 .app-mark-icon {
@@ -142,14 +148,14 @@ a:hover {
   gap: 0.25rem;
   padding: 0.3125rem;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.9);
-  border: 1px solid rgba(148, 163, 184, 0.18);
-  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.04), inset 0 1px 0 rgba(255, 255, 255, 0.82);
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid var(--app-panel-border);
+  box-shadow: 0 8px 20px rgba(120, 113, 108, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.86);
 }
 
 .saved-gallery-tabs-trigger {
   border-radius: 999px !important;
-  color: var(--stella-color-starlight-secondary, #475569);
+  color: var(--stella-color-starlight-secondary, #57534e);
   font-weight: 600;
   transition: background-color 160ms ease, color 160ms ease, box-shadow 160ms ease, border-color 160ms ease;
   border: 1px solid transparent;
@@ -160,14 +166,14 @@ a:hover {
 }
 
 .saved-gallery-tabs-trigger[data-state="active"] {
-  background: rgba(255, 255, 255, 0.98);
-  color: var(--stella-color-starlight-primary, #0f172a);
-  border-color: rgba(148, 163, 184, 0.24);
-  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.06);
+  background: var(--app-accent-fill);
+  color: var(--app-accent-text);
+  border-color: var(--app-accent-border);
+  box-shadow: 0 4px 10px rgba(180, 83, 9, 0.08);
 }
 
 .saved-gallery-tabs-trigger:focus-visible {
-  outline: 2px solid rgba(124, 58, 237, 0.35);
+  outline: 2px solid var(--app-focus-ring);
   outline-offset: 2px;
 }
 
@@ -215,8 +221,8 @@ a:hover {
 
 button.app-header-action {
   border-radius: 999px !important;
-  background: rgba(255, 255, 255, 0.72) !important;
-  border: 1px solid rgba(148, 163, 184, 0.18) !important;
+  background: rgba(255, 255, 255, 0.78) !important;
+  border: 1px solid var(--app-panel-border) !important;
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.82);
 }
 
@@ -229,39 +235,42 @@ button.app-header-action {
   gap: 0.25rem;
   padding: 0.3125rem;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.76);
-  border: 1px solid rgba(167, 139, 250, 0.16);
+  background: rgba(255, 255, 255, 0.88);
+  border: 1px solid var(--app-panel-border);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.82);
 }
 
 button.app-tabs-trigger {
   border-radius: 999px !important;
-  color: var(--stella-color-starlight-secondary, #64748b) !important;
-  transition: background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+  border: 1px solid transparent !important;
+  color: var(--stella-color-starlight-secondary, #57534e) !important;
+  transition: background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
 }
 
 button.app-tabs-trigger[data-state="active"] {
-  background: linear-gradient(
-    135deg,
-    var(--stella-color-nebula-600, #9333ea) 0%,
-    var(--stella-color-cosmos-600, #4f46e5) 100%
-  ) !important;
-  color: #fff !important;
-  box-shadow: 0 10px 20px rgba(99, 102, 241, 0.2);
+  background: var(--app-accent-fill) !important;
+  color: var(--app-accent-text) !important;
+  border-color: var(--app-accent-border) !important;
+  box-shadow: 0 4px 10px rgba(180, 83, 9, 0.08);
 }
 
 button.app-tabs-trigger[data-state="inactive"]:hover {
-  background: rgba(243, 232, 255, 0.72) !important;
-  color: var(--stella-color-nebula-700, #6d28d9) !important;
+  background: var(--app-accent-hover) !important;
+  color: var(--app-accent-hover-text) !important;
+}
+
+button.app-tabs-trigger:focus-visible {
+  outline: 2px solid var(--app-focus-ring);
+  outline-offset: 2px;
 }
 
 .app-tabs-content {
   margin-top: 0 !important;
   min-height: 0;
   border-radius: 28px;
-  border: 1px solid rgba(226, 232, 240, 0.88);
-  background: rgba(255, 255, 255, 0.84);
-  box-shadow: 0 18px 40px rgba(15, 23, 42, 0.06);
+  border: 1px solid var(--app-panel-border);
+  background: rgba(255, 253, 248, 0.92);
+  box-shadow: 0 14px 34px rgba(120, 113, 108, 0.08);
 }
 
 .app-tabs-content[hidden] {
@@ -299,13 +308,13 @@ button.app-tabs-trigger[data-state="inactive"]:hover {
   display: flex;
   flex-direction: column;
   gap: var(--stella-spacing-2, 0.5rem);
-  border-top: 1px solid rgba(167, 139, 250, 0.18);
+  border-top: 1px solid rgba(231, 225, 214, 0.96);
   padding-top: var(--stella-spacing-4, 1rem);
   background: linear-gradient(
     180deg,
     rgba(255, 255, 255, 0) 0%,
-    rgba(250, 245, 255, 0.8) 36%,
-    rgba(255, 255, 255, 0.96) 100%
+    rgba(255, 250, 245, 0.78) 34%,
+    rgba(255, 253, 248, 0.98) 100%
   );
 }
 
@@ -337,7 +346,7 @@ button.app-tabs-trigger[data-state="inactive"]:hover {
 .chat-welcome-icon {
   font-size: 2.5rem;
   line-height: 1;
-  filter: drop-shadow(0 0 10px rgba(139, 92, 246, 0.2));
+  filter: drop-shadow(0 0 10px rgba(245, 158, 11, 0.16));
 }
 
 /* ============================================================
@@ -355,8 +364,8 @@ button.app-tabs-trigger[data-state="inactive"]:hover {
 }
 
 .chat-bubble--user {
-  background: var(--stella-color-void-overlay, #e8edf5);
-  border: 1px solid var(--stella-color-void-muted, #f1f5f9);
+  background: rgba(255, 250, 244, 0.96);
+  border: 1px solid var(--app-panel-border);
   border-radius: var(--stella-radius-lg, 12px);
   border-bottom-right-radius: var(--stella-radius-sm, 4px);
   padding: var(--stella-spacing-3, 0.75rem) var(--stella-spacing-4, 1rem);
@@ -388,20 +397,20 @@ button.app-tabs-trigger[data-state="inactive"]:hover {
   height: 0.9rem;
   display: block;
   flex-shrink: 0;
-  color: var(--stella-color-nebula-600, #7c3aed);
+  color: var(--app-accent-text);
 }
 
 .chat-chef-name {
   font-size: var(--stella-typography-fontSize-xs, 0.75rem);
   font-weight: var(--stella-typography-fontWeight-semibold, 600);
-  color: var(--stella-color-nebula-600, #7c3aed);
+  color: var(--app-accent-text);
   letter-spacing: 0.05em;
   text-transform: uppercase;
 }
 
 .chat-bubble--assistant {
-  background: var(--stella-color-nebula-50, #faf5ff);
-  border: 1px solid var(--stella-color-nebula-200, #e9d5ff);
+  background: rgba(255, 249, 240, 0.94);
+  border: 1px solid rgba(245, 158, 11, 0.14);
   border-radius: var(--stella-radius-lg, 12px);
   border-top-left-radius: var(--stella-radius-sm, 4px);
   padding: var(--stella-spacing-4, 1rem) var(--stella-spacing-5, 1.25rem);
@@ -412,7 +421,7 @@ button.app-tabs-trigger[data-state="inactive"]:hover {
 .chat-bubble--streaming .chat-markdown > *:last-child::after {
   content: "▋";
   display: inline-block;
-  color: var(--stella-color-nebula-500, #a855f7);
+  color: var(--app-accent-text);
   animation: blink 1s step-end infinite;
   margin-left: 2px;
   font-size: 0.8em;
@@ -440,14 +449,14 @@ button.app-tabs-trigger[data-state="inactive"]:hover {
   font-weight: var(--stella-typography-fontWeight-bold, 700);
   color: var(--stella-color-starlight-primary, #0f172a);
   margin: var(--stella-spacing-5, 1.25rem) 0 var(--stella-spacing-2, 0.5rem);
-  border-bottom: 1px solid var(--stella-color-nebula-200, #e9d5ff);
+  border-bottom: 1px solid var(--app-panel-border);
   padding-bottom: var(--stella-spacing-2, 0.5rem);
 }
 
 .md-h2 {
   font-size: var(--stella-typography-fontSize-lg, 1.125rem);
   font-weight: var(--stella-typography-fontWeight-bold, 700);
-  color: var(--stella-color-nebula-700, #6d28d9);
+  color: var(--app-accent-text);
   margin: var(--stella-spacing-4, 1rem) 0 var(--stella-spacing-2, 0.5rem);
 }
 
@@ -475,7 +484,7 @@ button.app-tabs-trigger[data-state="inactive"]:hover {
 
 .md-strong {
   font-weight: var(--stella-typography-fontWeight-bold, 700);
-  color: var(--stella-color-nebula-700, #6d28d9);
+  color: var(--app-accent-text);
 }
 
 /* Ingredient lists — nova green bullets */
@@ -523,9 +532,9 @@ button.app-tabs-trigger[data-state="inactive"]:hover {
   left: 0;
   width: 1.25rem;
   height: 1.25rem;
-  background: var(--stella-color-nebula-100, #f3e8ff);
-  border: 1px solid var(--stella-color-nebula-300, #d8b4fe);
-  color: var(--stella-color-nebula-700, #6d28d9);
+  background: rgba(255, 247, 237, 0.98);
+  border: 1px solid rgba(245, 158, 11, 0.22);
+  color: var(--app-accent-text);
   border-radius: 50%;
   font-size: 0.7em;
   font-weight: 700;
@@ -542,7 +551,7 @@ button.app-tabs-trigger[data-state="inactive"]:hover {
 .md-code {
   background: var(--stella-color-void-surface, #f8fafc);
   border: 1px solid var(--stella-color-void-overlay, #e2e8f0);
-  color: var(--stella-color-nebula-700, #6d28d9);
+  color: var(--app-accent-text);
   padding: 0.1em 0.35em;
   border-radius: var(--stella-radius-sm, 4px);
   font-family: monospace;
@@ -588,8 +597,8 @@ button.app-tabs-trigger[data-state="inactive"]:hover {
   padding: var(--stella-spacing-2, 0.5rem) var(--stella-spacing-3, 0.75rem);
   text-align: left;
   font-weight: var(--stella-typography-fontWeight-semibold, 600);
-  color: var(--stella-color-nebula-700, #6d28d9);
-  border-bottom: 1px solid var(--stella-color-nebula-200, #e9d5ff);
+  color: var(--app-accent-text);
+  border-bottom: 1px solid rgba(245, 158, 11, 0.16);
   white-space: nowrap;
 }
 
@@ -633,25 +642,35 @@ button.quick-actions-nav {
   height: 2rem;
   padding: 0 !important;
   border-radius: 999px !important;
-  color: var(--stella-color-nebula-700, #6d28d9) !important;
-  border: 1px solid rgba(167, 139, 250, 0.18) !important;
-  background: rgba(255, 255, 255, 0.76) !important;
+  color: var(--app-accent-text) !important;
+  border: 1px solid var(--app-panel-border) !important;
+  background: rgba(255, 255, 255, 0.82) !important;
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+button.quick-actions-nav:focus-visible {
+  outline: 2px solid var(--app-focus-ring);
+  outline-offset: 2px;
 }
 
 button.quick-chip {
   flex-shrink: 0 !important;
   scroll-snap-align: start;
-  border-color: var(--stella-color-nova-400, #4ade80) !important;
-  color: var(--stella-color-nova-700, #15803d) !important;
+  border-color: rgba(214, 211, 209, 0.96) !important;
+  color: var(--stella-color-starlight-secondary, #57534e) !important;
   border-radius: var(--stella-radius-full, 9999px) !important;
   font-size: var(--stella-typography-fontSize-xs, 0.75rem) !important;
 }
 
 button.quick-chip:hover:not(:disabled) {
-  background: var(--stella-color-nova-50, #f0fdf4) !important;
-  color: var(--stella-color-nova-800, #166534) !important;
-  border-color: var(--stella-color-nova-500, #22c55e) !important;
+  background: var(--app-accent-hover) !important;
+  color: var(--app-accent-hover-text) !important;
+  border-color: var(--app-accent-border) !important;
+}
+
+button.quick-chip:focus-visible {
+  outline: 2px solid var(--app-focus-ring);
+  outline-offset: 2px;
 }
 
 /* ============================================================
@@ -663,16 +682,16 @@ button.quick-chip:hover:not(:disabled) {
   align-items: flex-end;
   padding: 0.35rem;
   border-radius: 20px;
-  background: rgba(248, 250, 252, 0.78);
-  border: 1px solid rgba(226, 232, 240, 0.88);
+  background: rgba(252, 249, 242, 0.92);
+  border: 1px solid var(--app-panel-border);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9);
 }
 
 .chat-input-row:focus-within {
-  border-color: rgba(167, 139, 250, 0.45);
+  border-color: rgba(217, 119, 6, 0.36);
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.9),
-    0 0 0 4px rgba(167, 139, 250, 0.12);
+    0 0 0 4px var(--app-focus-ring);
 }
 
 .chat-textarea {
@@ -709,14 +728,14 @@ button.quick-chip:hover:not(:disabled) {
    ============================================================ */
 button.save-btn {
   margin-top: var(--stella-spacing-3, 0.75rem) !important;
-  border-color: var(--stella-color-nebula-300, #d8b4fe) !important;
-  color: var(--stella-color-nebula-700, #6d28d9) !important;
+  border-color: rgba(217, 119, 6, 0.24) !important;
+  color: var(--app-accent-text) !important;
   border-radius: var(--stella-radius-full, 9999px) !important;
   font-size: var(--stella-typography-fontSize-xs, 0.75rem) !important;
 }
 
 button.save-btn:hover:not(:disabled) {
-  background: var(--stella-color-nebula-50, #faf5ff) !important;
+  background: var(--app-accent-hover) !important;
 }
 
 button.save-btn--saved {
@@ -732,14 +751,14 @@ button.save-btn--saved {
   width: min(640px, calc(100vw - 2rem)) !important;
   z-index: 80 !important;
   border-radius: 28px !important;
-  border: 1px solid rgba(203, 213, 225, 0.96) !important;
+  border: 1px solid var(--app-panel-border) !important;
   background: #ffffff !important;
   color: var(--stella-color-starlight-primary, #0f172a) !important;
   opacity: 1 !important;
   filter: none !important;
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
-  box-shadow: 0 32px 80px rgba(15, 23, 42, 0.22) !important;
+  box-shadow: 0 28px 72px rgba(120, 113, 108, 0.16) !important;
 }
 
 .goal-dialog-header {
@@ -783,8 +802,8 @@ button.save-btn--saved {
 .goal-mode-panel {
   padding: var(--stella-spacing-4, 1rem);
   border-radius: 18px;
-  border: 1px solid rgba(226, 232, 240, 0.88);
-  background: #f8fafc;
+  border: 1px solid var(--app-panel-border);
+  background: var(--app-subtle-surface);
 }
 
 .goal-mode-group {
@@ -817,8 +836,8 @@ input.goal-field::placeholder {
 
 input.goal-field:focus,
 button.goal-field:focus {
-  border-color: rgba(167, 139, 250, 0.55) !important;
-  box-shadow: 0 0 0 4px rgba(167, 139, 250, 0.12) !important;
+  border-color: rgba(217, 119, 6, 0.4) !important;
+  box-shadow: 0 0 0 4px var(--app-focus-ring) !important;
 }
 
 .goal-select-content {
@@ -862,23 +881,23 @@ button.goal-field:focus {
 }
 
 .goal-select-content [data-highlighted] {
-  background: rgba(243, 232, 255, 0.92) !important;
-  color: var(--stella-color-nebula-700, #6d28d9) !important;
+  background: var(--app-accent-fill) !important;
+  color: var(--app-accent-text) !important;
 }
 
 .goal-preview-card {
-  border: 1px solid rgba(167, 139, 250, 0.18) !important;
+  border: 1px solid var(--app-accent-border) !important;
   background: linear-gradient(
     135deg,
-    rgba(243, 232, 255, 0.72) 0%,
-    rgba(255, 255, 255, 0.92) 100%
+    rgba(255, 247, 237, 0.82) 0%,
+    rgba(255, 255, 255, 0.96) 100%
   );
   opacity: 1 !important;
   box-shadow: none !important;
 }
 
 .goal-preview-value {
-  color: var(--stella-color-nebula-700, #6d28d9) !important;
+  color: var(--app-accent-text) !important;
 }
 
 .goal-form-error {
@@ -908,21 +927,21 @@ button.goal-dialog-submit {
 
 button.goal-dialog-cancel {
   background: rgba(255, 255, 255, 0.72) !important;
-  border: 1px solid rgba(203, 213, 225, 0.9) !important;
+  border: 1px solid var(--app-panel-border) !important;
 }
 
 button.goal-dialog-submit {
-  box-shadow: 0 12px 24px rgba(99, 102, 241, 0.22);
+  box-shadow: 0 12px 24px rgba(217, 119, 6, 0.16);
 }
 
 .meal-log-dialog {
   width: min(560px, calc(100vw - 2rem)) !important;
   z-index: 80 !important;
   border-radius: 28px !important;
-  border: 1px solid rgba(203, 213, 225, 0.96) !important;
+  border: 1px solid var(--app-panel-border) !important;
   background: #ffffff !important;
   color: var(--stella-color-starlight-primary, #0f172a) !important;
-  box-shadow: 0 28px 72px rgba(15, 23, 42, 0.2) !important;
+  box-shadow: 0 24px 60px rgba(120, 113, 108, 0.15) !important;
 }
 
 .meal-log-dialog-header {
@@ -948,6 +967,12 @@ button.meal-log-field {
   border-color: rgba(203, 213, 225, 0.96) !important;
   color: var(--stella-color-starlight-primary, #0f172a) !important;
   opacity: 1 !important;
+}
+
+input.meal-log-field:focus,
+button.meal-log-field:focus {
+  border-color: rgba(217, 119, 6, 0.4) !important;
+  box-shadow: 0 0 0 4px var(--app-focus-ring) !important;
 }
 
 button.meal-log-field span {
@@ -980,7 +1005,7 @@ button.meal-log-dialog-submit {
 }
 
 button.meal-log-dialog-submit {
-  box-shadow: 0 12px 24px rgba(99, 102, 241, 0.22);
+  box-shadow: 0 12px 24px rgba(217, 119, 6, 0.16);
 }
 
 /* ============================================================
@@ -992,8 +1017,8 @@ button.meal-log-dialog-submit {
   justify-content: center;
   margin-left: var(--stella-spacing-1, 0.25rem);
   padding: 0 5px;
-  background: var(--stella-color-void-overlay, #e2e8f0);
-  color: var(--stella-color-starlight-secondary, #64748b);
+  background: rgba(245, 245, 244, 0.96);
+  color: var(--stella-color-starlight-secondary, #57534e);
   border-radius: var(--stella-radius-full, 9999px);
   font-size: 0.7rem;
   line-height: 1.6;
@@ -1004,12 +1029,192 @@ button.meal-log-dialog-submit {
    Meal Log
    ============================================================ */
 .meal-log-view {
+  display: flex;
+  flex-direction: column;
+  gap: var(--stella-spacing-4, 1rem);
   padding-top: var(--stella-spacing-4, 1rem);
   padding-bottom: var(--stella-spacing-8, 2rem);
 }
 
 .meal-log-add-btn-wrap {
   margin-bottom: var(--stella-spacing-4, 1rem);
+}
+
+.meal-log-chart-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--stella-spacing-2, 0.5rem);
+}
+
+.meal-log-chart-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--stella-spacing-3, 0.75rem);
+}
+
+.meal-log-chart-period-label {
+  letter-spacing: 0.04em;
+}
+
+.meal-log-range-picker {
+  display: inline-flex;
+  gap: 0.3rem;
+  padding: 0.28rem;
+  border: 1px solid var(--app-panel-border);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.66);
+}
+
+button.meal-log-range-button {
+  min-width: 3.6rem;
+  border-radius: 999px !important;
+  transition:
+    background-color 160ms ease,
+    color 160ms ease,
+    box-shadow 160ms ease,
+    transform 160ms ease;
+}
+
+button.meal-log-range-button[data-active="false"] {
+  color: var(--stella-color-starlight-secondary, #57534e) !important;
+}
+
+button.meal-log-range-button[data-active="false"]:hover {
+  background: var(--app-accent-hover) !important;
+  color: var(--app-accent-hover-text) !important;
+}
+
+button.meal-log-range-button[data-active="true"] {
+  background: var(--app-accent-fill) !important;
+  color: var(--app-accent-text) !important;
+  border-color: var(--app-accent-border) !important;
+  box-shadow: 0 4px 10px rgba(180, 83, 9, 0.08);
+}
+
+button.meal-log-range-button:focus-visible {
+  outline: 2px solid var(--app-focus-ring);
+  outline-offset: 2px;
+}
+
+.meal-log-chart-shell {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(1rem, 2vw, 1.35rem);
+  border: 1px solid var(--app-panel-border);
+  border-radius: 22px;
+  background:
+    radial-gradient(circle at top right, rgba(52, 211, 153, 0.12), transparent 32%),
+    linear-gradient(140deg, rgba(255, 253, 248, 0.98), rgba(250, 253, 250, 0.96) 58%, rgba(246, 249, 247, 0.94));
+  box-shadow: 0 18px 40px rgba(120, 113, 108, 0.08);
+}
+
+.meal-log-chart-copy {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--stella-spacing-4, 1rem);
+  margin-bottom: var(--stella-spacing-4, 1rem);
+}
+
+.meal-log-chart-kicker {
+  margin: 0 0 0.3rem;
+  color: var(--app-accent-text);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.meal-log-chart-title {
+  margin: 0;
+  color: var(--stella-color-starlight-primary, #0f172a);
+  font-size: clamp(1.05rem, 2vw, 1.25rem);
+  font-weight: 700;
+}
+
+.meal-log-chart-note {
+  margin: 0.4rem 0 0;
+  max-width: 34rem;
+  color: var(--stella-color-starlight-secondary, #475569);
+  font-size: var(--stella-typography-fontSize-sm, 0.875rem);
+  line-height: 1.6;
+}
+
+.meal-log-chart-target {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.55rem 0.8rem;
+  border: 1px solid var(--app-accent-border);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.78);
+  color: var(--app-accent-text);
+  font-size: 0.78rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.meal-log-chart-target-dot {
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: 999px;
+  background: #f97316;
+  box-shadow: 0 0 0 4px rgba(249, 115, 22, 0.18);
+}
+
+.meal-log-chart-stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.75rem;
+  margin-bottom: var(--stella-spacing-4, 1rem);
+}
+
+.meal-log-chart-stat {
+  padding: 0.8rem 0.9rem;
+  border: 1px solid rgba(203, 213, 225, 0.72);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.76);
+}
+
+.meal-log-chart-stat-label {
+  display: block;
+  margin-bottom: 0.25rem;
+  color: var(--stella-color-starlight-secondary, #64748b);
+  font-size: 0.72rem;
+}
+
+.meal-log-chart-stat-value {
+  color: var(--stella-color-starlight-primary, #0f172a);
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.meal-log-chart-canvas {
+  width: 100%;
+  height: 260px;
+}
+
+.meal-log-chart-loading,
+.meal-log-chart-empty {
+  display: flex;
+  flex-direction: column;
+  gap: var(--stella-spacing-2, 0.5rem);
+  padding: var(--stella-spacing-5, 1.25rem);
+  border: 1px dashed rgba(148, 163, 184, 0.46);
+  border-radius: 20px;
+  background: rgba(248, 250, 252, 0.92);
+}
+
+.meal-log-chart-loading {
+  align-items: center;
+  justify-content: center;
+  min-height: 260px;
+}
+
+.meal-log-chart-hint {
+  padding-left: 0.25rem;
 }
 
 .meal-log-day {
@@ -1027,7 +1232,7 @@ button.meal-log-dialog-submit {
 }
 
 .meal-log-day-label {
-  color: var(--stella-color-nebula-700, #6d28d9) !important;
+  color: var(--app-accent-text) !important;
 }
 
 .meal-log-day-total {
@@ -1127,5 +1332,35 @@ button.meal-log-dialog-submit {
 
   .goal-field-grid--two {
     grid-template-columns: 1fr;
+  }
+
+  .meal-log-chart-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .meal-log-range-picker {
+    width: 100%;
+  }
+
+  button.meal-log-range-button {
+    flex: 1 1 0;
+    min-width: 0;
+  }
+
+  .meal-log-chart-copy {
+    flex-direction: column;
+  }
+
+  .meal-log-chart-target {
+    white-space: normal;
+  }
+
+  .meal-log-chart-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .meal-log-chart-canvas {
+    height: 220px;
   }
 }

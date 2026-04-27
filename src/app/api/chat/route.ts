@@ -48,7 +48,7 @@ export async function POST(req: Request) {
   const goal = parsed.data as UserGoal;
   const systemPrompt = buildSystemPrompt(goal);
   const latestUserText = extractLatestUserText(messages);
-  const guardrailResult = checkChatGuardrails(latestUserText);
+  const guardrailResult = await checkChatGuardrails(latestUserText);
 
   if (guardrailResult.blocked) {
     return Response.json(
@@ -63,6 +63,10 @@ export async function POST(req: Request) {
       model: google("gemini-3-flash-preview"),
       system: systemPrompt,
       messages: modelMessages,
+      maxOutputTokens: 8192,
+      onError: ({ error }) => {
+        console.error("streamText error:", error);
+      },
     });
 
     return result.toUIMessageStreamResponse();

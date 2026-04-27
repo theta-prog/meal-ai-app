@@ -7,18 +7,26 @@ const SHOPPING_LIST_KEYWORDS = [
   "shopping-list",
 ] as const;
 
-export function detectSavedContentKind(markdown: string): SavedContentKind {
+export function detectSavedContentKind(markdown: string): SavedContentKind | "none" {
   const normalized = markdown.trim().toLowerCase();
+
   if (SHOPPING_LIST_KEYWORDS.some((keyword) => normalized.includes(keyword))) {
     return "shopping-list";
   }
-
   const hasMarkdownTable = /^\|.+\|\s*$/m.test(markdown);
   if (hasMarkdownTable && /(数量|個数|分量|食材|品目)/.test(markdown)) {
     return "shopping-list";
   }
 
-  return "recipe";
+  const hasRecipeHeading = /^##\s+.+/m.test(markdown);
+  const hasNumberedSteps = /^\d+\.\s+.+/m.test(markdown);
+  const hasIngredientList = /^-\s+.+[:：].+/m.test(markdown);
+  const hasCalorieInfo = /kcal/i.test(markdown);
+  if (hasRecipeHeading && (hasNumberedSteps || hasIngredientList || hasCalorieInfo)) {
+    return "recipe";
+  }
+
+  return "none";
 }
 
 export function extractSavedContentTitle(markdown: string, kind: SavedContentKind): string {
