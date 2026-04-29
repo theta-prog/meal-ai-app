@@ -1,0 +1,205 @@
+/* ============================================================
+   Shared markdown content
+   ============================================================ */
+.markdown {
+  font-size: var(--stella-typography-fontSize-sm, 0.875rem);
+  line-height: 1.75;
+  color: var(--stella-color-starlight-primary, #0f172a);
+}
+
+.markdown a {
+  color: var(--stella-color-cosmos-600, #4f46e5);
+  text-decoration: none;
+}
+
+.markdown a:hover {
+  color: var(--stella-color-cosmos-500, #6366f1);
+}
+
+.streaming > *:last-child::after {
+  content: "▋";
+  display: inline-block;
+  color: var(--stella-color-cosmos-600);
+  animation: blink 1s step-end infinite;
+  margin-left: 2px;
+  font-size: 0.8em;
+  vertical-align: baseline;
+}
+
+@keyframes blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0;
+  }
+}
+
+.h1 {
+  font-size: var(--stella-typography-fontSize-xl, 1.25rem);
+  font-weight: var(--stella-typography-fontWeight-bold, 700);
+  color: var(--stella-color-starlight-primary, #0f172a);
+  margin: var(--stella-spacing-5, 1.25rem) 0 var(--stella-spacing-2, 0.5rem);
+  border-bottom: 1px solid var(--stella-color-void-muted);
+  padding-bottom: var(--stella-spacing-2, 0.5rem);
+}
+
+.h2 {
+  font-size: var(--stella-typography-fontSize-lg, 1.125rem);
+  font-weight: var(--stella-typography-fontWeight-bold, 700);
+  color: var(--stella-color-cosmos-600);
+  margin: var(--stella-spacing-4, 1rem) 0 var(--stella-spacing-2, 0.5rem);
+}
+
+.h3 {
+  font-size: var(--stella-typography-fontSize-base, 1rem);
+  font-weight: var(--stella-typography-fontWeight-semibold, 600);
+  color: var(--stella-color-starlight-primary, #0f172a);
+  margin: var(--stella-spacing-3, 0.75rem) 0 var(--stella-spacing-1, 0.25rem);
+}
+
+.h1:first-child,
+.h2:first-child,
+.h3:first-child {
+  margin-top: 0;
+}
+
+.paragraph {
+  margin: 0 0 var(--stella-spacing-2, 0.5rem);
+  color: var(--stella-color-starlight-primary, #0f172a);
+}
+
+.paragraph:last-child {
+  margin-bottom: 0;
+}
+
+.strong {
+  font-weight: var(--stella-typography-fontWeight-bold, 700);
+  color: var(--stella-color-cosmos-600);
+}
+
+.unorderedList,
+.orderedList {
+  padding: 0;
+  margin: var(--stella-spacing-2, 0.5rem) 0;
+}
+
+.unorderedList {
+  list-style: none;
+}
+
+.orderedList {
+  list-style: none;
+  counter-reset: step-counter;
+}
+
+.listItem {
+  line-height: 1.6;
+}
+
+.unorderedList .listItem {
+  position: relative;
+  padding-left: var(--stella-spacing-4, 1rem);
+  color: var(--stella-color-starlight-primary, #0f172a);
+  margin-bottom: var(--stella-spacing-1, 0.25rem);
+}
+
+.unorderedList .listItem::before {
+  content: "◆";
+  position: absolute;
+  left: 0;
+  top: 0.45em;
+  color: var(--stella-color-nova-600, #16a34a);
+  font-size: 0.5em;
+}
+
+.orderedList .listItem {
+  counter-increment: step-counter;
+  position: relative;
+  padding-left: var(--stella-spacing-7, 1.75rem);
+  color: var(--stella-color-starlight-primary, #0f172a);
+  margin-bottom: var(--stella-spacing-2, 0.5rem);
+}
+
+.orderedList .listItem::before {
+  content: counter(step-counter);
+  position: absolute;
+  left: 0;
+  top: 0.1em;
+  width: 1.25rem;
+  height: 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--stella-color-cosmos-50);
+  border: 1px solid var(--stella-color-cosmos-200);
+  color: var(--stella-color-cosmos-600);
+  font-size: 0.7em;
+  font-weight: 700;
+}
+
+.inlineCode {
+  background: var(--stella-color-void-surface, #f8fafc);
+  border: 1px solid var(--stella-color-void-overlay, #e2e8f0);
+  color: var(--stella-color-cosmos-600);
+  padding: 0.1em 0.35em;
+  border-radius: var(--stella-radius-sm, 4px);
+  font-family: monospace;
+  font-size: 0.9em;
+}
+
+.preformatted {
+  background: var(--stella-color-void-surface, #f8fafc);
+  border: 1px solid var(--stella-color-void-overlay, #e2e8f0);
+  border-radius: var(--stella-radius-md, 8px);
+  padding: var(--stella-spacing-3, 0.75rem) var(--stella-spacing-4, 1rem);
+  overflow-x: auto;
+  margin: var(--stella-spacing-2, 0.5rem) 0;
+}
+
+.preformatted .codeBlock {
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: 0.85em;
+  line-height: 1.5;
+}
+
+.tableWrap {
+  overflow-x: auto;
+  margin: var(--stella-spacing-3, 0.75rem) 0;
+  border-radius: var(--stella-radius-md, 8px);
+  border: 1px solid var(--stella-color-void-muted);
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--stella-typography-fontSize-sm, 0.875rem);
+}
+
+.thead {
+  background: var(--stella-color-void-surface, #f8fafc);
+}
+
+.th {
+  padding: var(--stella-spacing-2, 0.5rem) var(--stella-spacing-3, 0.75rem);
+  text-align: left;
+  font-weight: var(--stella-typography-fontWeight-semibold, 600);
+  color: var(--stella-color-cosmos-600);
+  border-bottom: 1px solid var(--stella-color-cosmos-200);
+  white-space: nowrap;
+}
+
+.td {
+  padding: var(--stella-spacing-2, 0.5rem) var(--stella-spacing-3, 0.75rem);
+  border-bottom: 1px solid var(--stella-color-void-overlay, #e2e8f0);
+  color: var(--stella-color-starlight-primary, #0f172a);
+}
+
+.table :global(tr:last-child) .td {
+  border-bottom: none;
+}

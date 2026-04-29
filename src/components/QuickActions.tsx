@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@stella-ds/react";
 import { Button } from "@stella-ds/react";
 
 interface QuickActionsProps {
@@ -18,83 +18,28 @@ const QUICK_ACTIONS = [
 ] as const;
 
 export function QuickActions({ onSelect, disabled }: QuickActionsProps) {
-  const trackRef = useRef<HTMLDivElement>(null);
-  const [canScrollLeft, setCanScrollLeft] = useState(false);
-  const [canScrollRight, setCanScrollRight] = useState(false);
-
-  useEffect(() => {
-    const track = trackRef.current;
-    if (!track) return;
-
-    const updateScrollState = () => {
-      setCanScrollLeft(track.scrollLeft > 4);
-      setCanScrollRight(track.scrollLeft + track.clientWidth < track.scrollWidth - 4);
-    };
-
-    updateScrollState();
-    track.addEventListener("scroll", updateScrollState, { passive: true });
-
-    const resizeObserver = new ResizeObserver(updateScrollState);
-    resizeObserver.observe(track);
-
-    return () => {
-      track.removeEventListener("scroll", updateScrollState);
-      resizeObserver.disconnect();
-    };
-  }, []);
-
-  const scrollByAmount = (direction: "left" | "right") => {
-    const track = trackRef.current;
-    if (!track) return;
-
-    const amount = Math.max(track.clientWidth * 0.72, 220);
-    track.scrollBy({
-      left: direction === "right" ? amount : -amount,
-      behavior: "smooth",
-    });
-  };
-
   return (
-    <div className="quick-actions-shell">
-      <Button
-        variant="ghost"
-        size="sm"
-        className="quick-actions-nav"
-        onClick={() => scrollByAmount("left")}
-        disabled={disabled || !canScrollLeft}
-        type="button"
-        aria-label="質問例を左にスクロール"
-      >
-        {"<"}
-      </Button>
-
-      <div className="quick-actions" ref={trackRef}>
+    <Carousel aria-label="クイック質問" slideAlign="start">
+      <CarouselContent style={{ paddingBlock: "0.15rem" }}>
         {QUICK_ACTIONS.map((action) => (
-          <Button
-            key={action}
-            variant="outline"
-            size="sm"
-            className="quick-chip"
-            onClick={() => onSelect(action)}
-            disabled={disabled}
-            type="button"
-          >
-            {action}
-          </Button>
+          <CarouselItem key={action} style={{ flex: "0 0 auto", width: "auto" }}>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => onSelect(action)}
+              disabled={disabled}
+              type="button"
+              style={{ borderRadius: "9999px", fontSize: "0.75rem", whiteSpace: "nowrap" }}
+            >
+              {action}
+            </Button>
+          </CarouselItem>
         ))}
+      </CarouselContent>
+      <div style={{ display: "flex", gap: "0.5rem", marginTop: "0.25rem" }}>
+        <CarouselPrevious disabled={disabled} />
+        <CarouselNext disabled={disabled} />
       </div>
-
-      <Button
-        variant="ghost"
-        size="sm"
-        className="quick-actions-nav"
-        onClick={() => scrollByAmount("right")}
-        disabled={disabled || !canScrollRight}
-        type="button"
-        aria-label="質問例を右にスクロール"
-      >
-        {">"}
-      </Button>
-    </div>
+    </Carousel>
   );
 }

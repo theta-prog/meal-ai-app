@@ -30,6 +30,7 @@ import {
   calcBulkCalories,
   calcMaintainCalories,
 } from "@/lib/calorie-calc";
+import styles from "./GoalSetup.module.css";
 
 const SEX_OPTIONS: Array<{ value: GoalSex; label: string }> = [
   { value: "male", label: "男性" },
@@ -201,57 +202,52 @@ export function GoalSetup({ initialGoal, onSave, open, onOpenChange }: GoalSetup
 
   return (
     <Dialog open={open} onOpenChange={canClose ? onOpenChange : undefined}>
-      <DialogContent showClose={canClose} className="goal-dialog">
-        <DialogHeader className="goal-dialog-header">
-          <DialogTitle className="goal-dialog-title">目標プロフィールの設定</DialogTitle>
-          <DialogDescription className="goal-dialog-description">
+      <DialogContent showClose={canClose} className={styles.dialog}>
+        <DialogHeader className={styles.dialogHeader}>
+          <DialogTitle>目標プロフィールの設定</DialogTitle>
+          <DialogDescription className={styles.dialogDescription}>
             あなたの目標を設定するとパティシエが最適な食事を提案できます
           </DialogDescription>
         </DialogHeader>
 
-        <form noValidate onSubmit={handleSubmit(onValid)} className="goal-dialog-form">
+        <form noValidate onSubmit={handleSubmit(onValid)} className={styles.dialogForm}>
           <Stack gap="6">
             {/* モード選択 */}
-            <div className="goal-mode-panel">
-              <Text size="sm" weight="bold" className="goal-field-label">目標</Text>
+            <div className={styles.modePanel}>
+              <Text size="sm" weight="bold">目標</Text>
               <Controller
                 name="mode"
                 control={control}
                 render={({ field }) => (
                   <RadioGroup
-                    className="goal-mode-group"
+                    className={styles.modeGroup}
                     value={field.value}
                     onValueChange={field.onChange}
                     orientation="horizontal"
                   >
-                    <RadioItem className="goal-mode-item" value="cut" label="減量" />
-                    <RadioItem className="goal-mode-item" value="bulk" label="増量・筋トレ" />
-                    <RadioItem className="goal-mode-item" value="maintain" label="維持" />
+                    <RadioItem value="cut" label="減量" />
+                    <RadioItem value="bulk" label="増量・筋トレ" />
+                    <RadioItem value="maintain" label="維持" />
                   </RadioGroup>
                 )}
               />
             </div>
 
-            <div className="goal-field-grid goal-field-grid--two">
-              <div className="goal-field-group">
-                <Text size="sm" weight="bold" className="goal-field-label">性別</Text>
+            <div className={`${styles.fieldGrid} ${styles.fieldGridTwo}`}>
+              <div className={styles.fieldGroup}>
+                <Text size="sm" weight="bold">性別</Text>
                 <Controller
                   name="sex"
                   control={control}
                   render={({ field }) => (
                     <Select value={field.value ?? ""} onValueChange={field.onChange}>
                       <SelectTrigger
-                        className="goal-field"
                         placeholder="選択してください"
                         error={errors.sex?.message}
                       />
-                      <SelectContent className="goal-select-content">
+                      <SelectContent className={styles.selectContent} data-theme="light">
                         {SEX_OPTIONS.map((option) => (
-                          <SelectItem
-                            key={option.value}
-                            value={option.value}
-                            className="goal-select-item"
-                          >
+                          <SelectItem key={option.value} value={option.value}>
                             {option.label}
                           </SelectItem>
                         ))}
@@ -261,37 +257,34 @@ export function GoalSetup({ initialGoal, onSave, open, onOpenChange }: GoalSetup
                 />
               </div>
 
-              <div className="goal-field-group">
-                <Text size="sm" weight="bold" className="goal-field-label">年齢</Text>
+              <div className={styles.fieldGroup}>
+                <Text size="sm" weight="bold">年齢</Text>
                 <Input
                   type="number"
                   placeholder="例: 29"
-                  className="goal-field"
                   {...register("age")}
                   error={errors.age?.message}
                 />
               </div>
             </div>
 
-            <div className="goal-field-grid goal-field-grid--two">
-              <div className="goal-field-group">
-                <Text size="sm" weight="bold" className="goal-field-label">身長（cm）</Text>
+            <div className={`${styles.fieldGrid} ${styles.fieldGridTwo}`}>
+              <div className={styles.fieldGroup}>
+                <Text size="sm" weight="bold">身長（cm）</Text>
                 <Input
                   type="number"
                   placeholder="例: 170"
-                  className="goal-field"
                   {...register("heightCm")}
                   error={errors.heightCm?.message}
                 />
               </div>
 
-              <div className="goal-field-group">
-                <Text size="sm" weight="bold" className="goal-field-label">現在の体重（kg）</Text>
+              <div className={styles.fieldGroup}>
+                <Text size="sm" weight="bold">現在の体重（kg）</Text>
                 <Input
                   type="number"
                   step="0.1"
                   placeholder="例: 70"
-                  className="goal-field"
                   {...register("currentWeight")}
                   error={errors.currentWeight?.message}
                 />
@@ -301,21 +294,20 @@ export function GoalSetup({ initialGoal, onSave, open, onOpenChange }: GoalSetup
             {/* 減量モード専用 */}
             {mode === "cut" && (
               <>
-                <div className="goal-field-group">
-                  <Text size="sm" weight="bold" className="goal-field-label">目標体重（kg）</Text>
+                <div className={styles.fieldGroup}>
+                  <Text size="sm" weight="bold">目標体重（kg）</Text>
                   <Input
                     type="number"
                     step="0.1"
                     placeholder="例: 65"
-                    className="goal-field"
                     {...register("targetWeight", {
                       setValueAs: (value) => (value === "" ? undefined : Number(value)),
                     })}
                     error={errors.targetWeight?.message}
                   />
                 </div>
-                <div className="goal-field-group">
-                  <Text size="sm" weight="bold" className="goal-field-label">目標達成期間</Text>
+                <div className={styles.fieldGroup}>
+                  <Text size="sm" weight="bold">目標達成期間</Text>
                   <Controller
                     name="timeframeWeeks"
                     control={control}
@@ -325,12 +317,11 @@ export function GoalSetup({ initialGoal, onSave, open, onOpenChange }: GoalSetup
                         onValueChange={(v) => field.onChange(parseInt(v, 10))}
                       >
                         <SelectTrigger
-                          className="goal-field"
                           error={errors.timeframeWeeks?.message}
                         />
-                        <SelectContent className="goal-select-content">
+                        <SelectContent className={styles.selectContent} data-theme="light">
                           {TIMEFRAME_OPTIONS.map((opt) => (
-                            <SelectItem key={opt.value} value={opt.value} className="goal-select-item">
+                            <SelectItem key={opt.value} value={opt.value}>
                               {opt.label}
                             </SelectItem>
                           ))}
@@ -344,8 +335,8 @@ export function GoalSetup({ initialGoal, onSave, open, onOpenChange }: GoalSetup
 
             {/* 増量モード専用 */}
             {mode === "bulk" && (
-              <div className="goal-field-group">
-                <Text size="sm" weight="bold" className="goal-field-label">週のトレーニング日数</Text>
+              <div className={styles.fieldGroup}>
+                <Text size="sm" weight="bold">週のトレーニング日数</Text>
                 <Controller
                   name="trainingDaysPerWeek"
                   control={control}
@@ -355,12 +346,11 @@ export function GoalSetup({ initialGoal, onSave, open, onOpenChange }: GoalSetup
                       onValueChange={(v) => field.onChange(parseInt(v, 10))}
                     >
                       <SelectTrigger
-                        className="goal-field"
                         error={errors.trainingDaysPerWeek?.message}
                       />
-                      <SelectContent className="goal-select-content">
+                      <SelectContent className={styles.selectContent} data-theme="light">
                         {TRAINING_DAYS_OPTIONS.map((opt) => (
-                          <SelectItem key={opt.value} value={opt.value} className="goal-select-item">
+                          <SelectItem key={opt.value} value={opt.value}>
                             {opt.label}
                           </SelectItem>
                         ))}
@@ -373,11 +363,11 @@ export function GoalSetup({ initialGoal, onSave, open, onOpenChange }: GoalSetup
 
             {/* カロリープレビュー */}
             {previewCalories != null && (
-              <Card className="goal-preview-card" style={{ borderLeft: "3px solid var(--stella-color-nebula-500, #a855f7)" }}>
+              <Card className={styles.previewCard}>
                 <CardContent>
                   <Stack gap="1">
-                    <Text size="sm" color="secondary" className="goal-preview-label">身長・年齢・性別を反映した推定目標カロリー</Text>
-                    <Text size="lg" weight="bold" className="goal-preview-value">
+                    <Text size="sm" color="secondary">身長・年齢・性別を反映した推定目標カロリー</Text>
+                    <Text size="lg" weight="bold" className={styles.previewValue}>
                       {previewCalories.toLocaleString()} kcal / 日
                     </Text>
                   </Stack>
@@ -386,25 +376,25 @@ export function GoalSetup({ initialGoal, onSave, open, onOpenChange }: GoalSetup
             )}
 
             {submitCount > 0 && firstErrorMessage && (
-              <div className="goal-form-error" role="alert">
-                <Text size="sm" weight="medium" className="goal-form-error-text">
+              <div className={styles.formError} role="alert">
+                <Text size="sm" weight="medium" className={styles.formErrorText}>
                   保存する前に入力内容を確認してね: {firstErrorMessage}
                 </Text>
               </div>
             )}
 
-            <DialogFooter className="goal-dialog-footer">
+            <DialogFooter className={styles.dialogFooter}>
               {canClose && (
                 <Button
                   type="button"
                   variant="ghost"
-                  className="goal-dialog-cancel"
+                  className={styles.cancelBtn}
                   onClick={() => onOpenChange(false)}
                 >
                   キャンセル
                 </Button>
               )}
-              <Button type="submit" variant="solid" className="goal-dialog-submit">
+              <Button type="submit" variant="solid" className={styles.submitBtn}>
                 設定を保存
               </Button>
             </DialogFooter>

@@ -1,12 +1,14 @@
 "use client";
 
-import { ToastProvider, ToastViewport } from "@stella-ds/react";
+import { ThemeProvider, ToastProvider, ToastViewport } from "@stella-ds/react";
 
 export function ClientProviders({ children }: { children: React.ReactNode }) {
   return (
-    <ToastProvider>
-      {children}
-      <ToastViewport />
-    </ToastProvider>
+    <ThemeProvider theme="light" style={{ display: "contents" }}>
+      <ToastProvider>
+        {children}
+        <ToastViewport />
+      </ToastProvider>
+    </ThemeProvider>
   );
 }

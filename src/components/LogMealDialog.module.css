@@ -1,0 +1,40 @@
+/* ============================================================
+   Log Meal Dialog
+   ============================================================ */
+.dialog {
+  width: min(560px, calc(100vw - 2rem)) !important;
+  z-index: 80 !important;
+  border-radius: 28px !important;
+}
+
+.dialogHeader {
+  gap: var(--stella-spacing-2, 0.5rem);
+}
+
+.dialogForm {
+  margin-top: var(--stella-spacing-5, 1.25rem);
+}
+
+/* ============================================================
+   Select dropdown
+   ============================================================ */
+.selectContent {
+  z-index: 90 !important;
+}
+
+/* ============================================================
+   Dialog footer buttons
+   ============================================================ */
+.dialogFooter {
+  padding-top: var(--stella-spacing-4, 1rem);
+  border-top: 1px solid var(--stella-color-void-muted);
+}
+
+button.cancelBtn,
+button.submitBtn {
+  border-radius: 999px !important;
+}
+
+button.submitBtn {
+  box-shadow: none;
+}

@@ -1,0 +1,199 @@
+/* ============================================================
+   Meal Log View wrapper
+   ============================================================ */
+.view {
+  display: flex;
+  flex-direction: column;
+  gap: var(--stella-spacing-4, 1rem);
+  padding-top: var(--stella-spacing-4, 1rem);
+  padding-bottom: var(--stella-spacing-8, 2rem);
+}
+
+.addBtnWrap {
+  margin-bottom: var(--stella-spacing-4, 1rem);
+}
+
+/* ============================================================
+   Chart section
+   ============================================================ */
+.chartSection {
+  display: flex;
+  flex-direction: column;
+  gap: var(--stella-spacing-2, 0.5rem);
+}
+
+.chartToolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--stella-spacing-3, 0.75rem);
+}
+
+.chartPeriodLabel {
+  letter-spacing: 0.04em;
+}
+
+.rangePicker {
+  display: inline-flex;
+  gap: 0.3rem;
+  padding: 0.28rem;
+  border: 1px solid var(--stella-color-void-muted);
+  border-radius: 999px;
+  background: var(--stella-color-void-surface);
+}
+
+button.rangeButton {
+  min-width: 3.6rem;
+  border-radius: 999px !important;
+  transition:
+    background-color 160ms ease,
+    color 160ms ease,
+    box-shadow 160ms ease,
+    transform 160ms ease;
+}
+
+button.rangeButton[data-active="false"] {
+  color: var(--stella-color-starlight-secondary, #57534e) !important;
+}
+
+button.rangeButton[data-active="false"]:hover {
+  background: var(--stella-color-cosmos-100) !important;
+  color: var(--stella-color-cosmos-700) !important;
+}
+
+button.rangeButton[data-active="true"] {
+  background: var(--stella-color-cosmos-50) !important;
+  color: var(--stella-color-cosmos-600) !important;
+  border-color: var(--stella-color-cosmos-200) !important;
+}
+
+button.rangeButton:focus-visible {
+  outline: 2px solid var(--stella-color-cosmos-200);
+  outline-offset: 2px;
+}
+
+.chartLoading,
+.chartEmpty {
+  display: flex;
+  flex-direction: column;
+  gap: var(--stella-spacing-2, 0.5rem);
+  padding: var(--stella-spacing-5, 1.25rem);
+  border: 1px dashed var(--stella-color-void-muted);
+  border-radius: 20px;
+  background: var(--stella-color-void-surface);
+}
+
+.chartLoading {
+  align-items: center;
+  justify-content: center;
+  min-height: 260px;
+}
+
+.chartHint {
+  padding-left: 0.25rem;
+}
+
+/* ============================================================
+   Day groups and entries
+   ============================================================ */
+.day {
+  display: flex;
+  flex-direction: column;
+  gap: var(--stella-spacing-2, 0.5rem);
+}
+
+.dayHeader {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--stella-spacing-3, 0.75rem);
+  padding-bottom: var(--stella-spacing-1, 0.25rem);
+  border-bottom: 1px solid var(--stella-color-void-muted);
+}
+
+.dayTotal {
+  font-size: var(--stella-typography-fontSize-xs, 0.75rem);
+  color: var(--stella-color-aurora-700, #0e7490);
+}
+
+.dayLabel {
+  color: var(--stella-color-cosmos-600);
+}
+
+.entry {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--stella-spacing-2, 0.5rem);
+  padding: var(--stella-spacing-2, 0.5rem) var(--stella-spacing-3, 0.75rem);
+  background: var(--stella-color-void-surface);
+  border-radius: var(--stella-radius-md, 8px);
+}
+
+.entryText {
+  min-width: 0;
+}
+
+.entryCal {
+  font-size: var(--stella-typography-fontSize-xs, 0.75rem);
+  color: var(--stella-color-aurora-700, #0e7490);
+  white-space: nowrap;
+}
+
+.deleteBtn {
+  margin-left: auto;
+}
+
+/* ============================================================
+   Empty states
+   ============================================================ */
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: var(--stella-spacing-3, 0.75rem);
+  padding: var(--stella-spacing-12, 3rem) var(--stella-spacing-8, 2rem);
+}
+
+.emptyIcon {
+  font-size: 2.5rem;
+  line-height: 1;
+}
+
+/* ============================================================
+   Mobile
+   ============================================================ */
+@media (max-width: 720px) {
+  .chartToolbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .rangePicker {
+    width: 100%;
+  }
+
+  button.rangeButton {
+    flex: 1 1 0;
+    min-width: 0;
+  }
+
+  .entry {
+    align-items: flex-start;
+  }
+
+  .entryText {
+    width: 100%;
+    flex-basis: 100%;
+    order: 2;
+  }
+
+  .entryCal {
+    order: 3;
+  }
+
+  .deleteBtn {
+    order: 4;
+  }
+}

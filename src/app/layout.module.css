@@ -1,0 +1,49 @@
+.pageFrame {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.toolbarSection {
+  padding-top: var(--stella-spacing-4, 1rem);
+}
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--stella-spacing-4, 1rem);
+  padding: 0.875rem 1rem;
+  border: 1px solid var(--stella-color-void-muted);
+  border-radius: 20px;
+  background: var(--stella-color-void-surface);
+  box-shadow: var(--stella-shadow-base);
+}
+
+.userMeta {
+  min-width: 0;
+}
+
+.userName {
+  line-height: 1.3;
+}
+
+.userEmail {
+  word-break: break-word;
+}
+
+.logoutForm {
+  flex-shrink: 0;
+}
+
+@media (max-width: 720px) {
+  .toolbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .logoutForm > button {
+    width: 100%;
+    justify-content: center;
+  }
+}

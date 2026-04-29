@@ -2,6 +2,7 @@ import { google } from "@ai-sdk/google";
 import { streamText, convertToModelMessages } from "ai";
 import type { UIMessage } from "ai";
 import { z } from "zod";
+import { auth } from "@/auth";
 import { checkChatGuardrails, extractLatestUserText } from "@/lib/chat-guardrails";
 import { buildSystemPrompt } from "@/lib/system-prompt";
 import type { UserGoal } from "@/types/chat";
@@ -23,6 +24,15 @@ const goalSchema = z.object({
 });
 
 export async function POST(req: Request) {
+  const session = await auth();
+
+  if (!session?.user) {
+    return Response.json(
+      { error: "認証が必要です。Googleでログインしてから利用してください。" },
+      { status: 401 }
+    );
+  }
+
   let messages: UIMessage[];
   let goalRaw: unknown;
 

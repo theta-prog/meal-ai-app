@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z, ZodError } from "zod";
+import { auth } from "@/auth";
 import { generateMealPlan } from "@/lib/gemini";
 import type { MealGoal } from "@/types/meal";
 
@@ -57,6 +58,15 @@ function calcBulkCalories(
 }
 
 export async function POST(request: NextRequest) {
+  const session = await auth();
+
+  if (!session?.user) {
+    return NextResponse.json(
+      { error: "認証が必要です。Googleでログインしてから利用してください。" },
+      { status: 401 }
+    );
+  }
+
   let body: unknown;
   try {
     body = await request.json();

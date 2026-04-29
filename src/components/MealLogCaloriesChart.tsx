@@ -10,6 +10,7 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
+import styles from "./MealLogCaloriesChart.module.css";
 
 interface MealLogCaloriesChartProps {
   data: Array<{
@@ -39,38 +40,38 @@ export function MealLogCaloriesChart({ data, targetCalories }: MealLogCaloriesCh
   const latestDelta = targetCalories != null ? latestCalories - targetCalories : null;
 
   return (
-    <section className="meal-log-chart-shell" aria-label="カロリー推移グラフ">
-      <div className="meal-log-chart-copy">
+    <section className={styles.chartShell} aria-label="カロリー推移グラフ">
+      <div className={styles.chartCopy}>
         <div>
-          <p className="meal-log-chart-kicker">Meal Log</p>
-          <h3 className="meal-log-chart-title">日別カロリー推移</h3>
-          <p className="meal-log-chart-note">
+          <p className={styles.chartKicker}>Meal Log</p>
+          <h3 className={styles.chartTitle}>日別カロリー推移</h3>
+          <p className={styles.chartNote}>
             カロリーを入力した日の合計だけを拾って、流れが見えるようにしてる。
           </p>
         </div>
 
         {targetCalories != null && (
-          <div className="meal-log-chart-target">
-            <span className="meal-log-chart-target-dot" aria-hidden="true" />
+          <div className={styles.chartTarget}>
+            <span className={styles.chartTargetDot} aria-hidden="true" />
             目標 {targetCalories.toLocaleString()} kcal
           </div>
         )}
       </div>
 
-      <div className="meal-log-chart-stats">
-        <div className="meal-log-chart-stat">
-          <span className="meal-log-chart-stat-label">記録日数</span>
-          <strong className="meal-log-chart-stat-value">{data.length}日</strong>
+      <div className={styles.chartStats}>
+        <div className={styles.chartStat}>
+          <span className={styles.chartStatLabel}>記録日数</span>
+          <strong className={styles.chartStatValue}>{data.length}日</strong>
         </div>
-        <div className="meal-log-chart-stat">
-          <span className="meal-log-chart-stat-label">平均</span>
-          <strong className="meal-log-chart-stat-value">{averageCalories.toLocaleString()} kcal</strong>
+        <div className={styles.chartStat}>
+          <span className={styles.chartStatLabel}>平均</span>
+          <strong className={styles.chartStatValue}>{averageCalories.toLocaleString()} kcal</strong>
         </div>
-        <div className="meal-log-chart-stat">
-          <span className="meal-log-chart-stat-label">
+        <div className={styles.chartStat}>
+          <span className={styles.chartStatLabel}>
             {latestDelta != null ? "最新差分" : "最高"}
           </span>
-          <strong className="meal-log-chart-stat-value">
+          <strong className={styles.chartStatValue}>
             {latestDelta != null
               ? `${latestDelta > 0 ? "+" : ""}${latestDelta.toLocaleString()} kcal`
               : `${highestCalories.toLocaleString()} kcal`}
@@ -78,7 +79,7 @@ export function MealLogCaloriesChart({ data, targetCalories }: MealLogCaloriesCh
         </div>
       </div>
 
-      <div className="meal-log-chart-canvas">
+      <div className={styles.chartCanvas}>
         <ResponsiveContainer width="100%" height="100%">
           <AreaChart
             data={data}
@@ -86,14 +87,14 @@ export function MealLogCaloriesChart({ data, targetCalories }: MealLogCaloriesCh
           >
             <defs>
               <linearGradient id="meal-log-calories-fill" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor="#0f766e" stopOpacity={0.32} />
-                <stop offset="100%" stopColor="#22c55e" stopOpacity={0.06} />
+                <stop offset="0%" stopColor="var(--stella-color-cosmos-500)" stopOpacity={0.24} />
+                <stop offset="100%" stopColor="var(--stella-color-cosmos-500)" stopOpacity={0.04} />
               </linearGradient>
             </defs>
 
             <CartesianGrid
               vertical={false}
-              stroke="rgba(148, 163, 184, 0.28)"
+              stroke="var(--stella-color-void-muted)"
               strokeDasharray="4 4"
             />
 
@@ -103,7 +104,7 @@ export function MealLogCaloriesChart({ data, targetCalories }: MealLogCaloriesCh
               tickLine={false}
               axisLine={false}
               minTickGap={20}
-              tick={{ fill: "#64748b", fontSize: 12 }}
+              tick={{ fill: "var(--stella-color-starlight-secondary)", fontSize: 12 }}
             />
 
             <YAxis
@@ -112,19 +113,19 @@ export function MealLogCaloriesChart({ data, targetCalories }: MealLogCaloriesCh
               tickLine={false}
               axisLine={false}
               width={48}
-              tick={{ fill: "#64748b", fontSize: 12 }}
+              tick={{ fill: "var(--stella-color-starlight-secondary)", fontSize: 12 }}
               tickFormatter={(value) => `${value}`}
             />
 
             <Tooltip
-              cursor={{ stroke: "rgba(15, 118, 110, 0.28)", strokeDasharray: "5 5" }}
+              cursor={{ stroke: "var(--stella-color-cosmos-300)", strokeDasharray: "5 5" }}
               contentStyle={{
-                border: "1px solid rgba(203, 213, 225, 0.9)",
+                border: "1px solid var(--stella-color-void-muted)",
                 borderRadius: "14px",
-                background: "rgba(255, 255, 255, 0.96)",
-                boxShadow: "0 18px 40px rgba(15, 23, 42, 0.12)",
+                background: "var(--stella-color-void-surface)",
+                boxShadow: "var(--stella-shadow-lg)",
               }}
-              labelStyle={{ color: "#0f172a", fontWeight: 700 }}
+              labelStyle={{ color: "var(--stella-color-starlight-primary)", fontWeight: 700 }}
               formatter={(value) => [`${Number(value).toLocaleString()} kcal`, "合計"]}
               labelFormatter={(label) => formatLongDate(String(label))}
             />
@@ -132,7 +133,7 @@ export function MealLogCaloriesChart({ data, targetCalories }: MealLogCaloriesCh
             {targetCalories != null && (
               <ReferenceLine
                 y={targetCalories}
-                stroke="#f97316"
+                stroke="var(--stella-color-nebula-400)"
                 strokeDasharray="7 5"
                 ifOverflow="extendDomain"
               />
@@ -141,11 +142,11 @@ export function MealLogCaloriesChart({ data, targetCalories }: MealLogCaloriesCh
             <Area
               type="monotone"
               dataKey="calories"
-              stroke="#0f766e"
+              stroke="var(--stella-color-cosmos-500)"
               strokeWidth={3}
               fill="url(#meal-log-calories-fill)"
-              activeDot={{ r: 6, fill: "#0f766e", stroke: "#ffffff", strokeWidth: 2 }}
-              dot={{ r: 3, fill: "#0f766e", stroke: "#ffffff", strokeWidth: 2 }}
+              activeDot={{ r: 6, fill: "var(--stella-color-cosmos-500)", stroke: "var(--stella-color-void-surface)", strokeWidth: 2 }}
+              dot={{ r: 3, fill: "var(--stella-color-cosmos-500)", stroke: "var(--stella-color-void-surface)", strokeWidth: 2 }}
             />
           </AreaChart>
         </ResponsiveContainer>

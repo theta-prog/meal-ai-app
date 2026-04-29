@@ -5,6 +5,7 @@ import { useState } from "react";
 import { Badge, Button, Stack, Text } from "@stella-ds/react";
 import type { MealLogEntry } from "@/types/storage";
 import { LogMealDialog } from "@/components/LogMealDialog";
+import styles from "./MealLogView.module.css";
 
 interface MealLogViewProps {
   entriesByDate: Record<string, MealLogEntry[]>;
@@ -32,7 +33,7 @@ const MealLogCaloriesChart = dynamic(
   {
     ssr: false,
     loading: () => (
-      <div className="meal-log-chart-loading">
+      <div className={styles.chartLoading}>
         <Text size="sm" color="secondary">カロリー推移を読み込み中...</Text>
       </div>
     ),
@@ -114,16 +115,16 @@ export function MealLogView({ entriesByDate, sortedDates, targetCalories, onDele
   const selectedRangeLabel = TREND_RANGE_OPTIONS.find((option) => option.value === selectedRange)?.label ?? "全期間";
 
   return (
-    <div className="meal-log-view">
-      <div className="meal-log-add-btn-wrap">
+    <div className={styles.view}>
+      <div className={styles.addBtnWrap}>
         <Button variant="outline" size="sm" onClick={() => setLogOpen(true)}>
           ＋ 食事を記録する
         </Button>
       </div>
 
       {sortedDates.length === 0 ? (
-        <div className="empty-state">
-          <div className="empty-state-icon">📅</div>
+        <div className={styles.emptyState}>
+          <div className={styles.emptyIcon}>📅</div>
           <Text size="md" weight="bold">食事の記録がありません</Text>
           <Text size="sm" color="secondary">
             「食事を記録する」から今日食べたものを追加できます。
@@ -132,12 +133,12 @@ export function MealLogView({ entriesByDate, sortedDates, targetCalories, onDele
         </div>
       ) : (
         <Stack gap="6" style={{ paddingTop: "var(--stella-spacing-2, 0.5rem)" }}>
-          <div className="meal-log-chart-section">
-            <div className="meal-log-chart-toolbar">
-              <Text size="xs" color="secondary" className="meal-log-chart-period-label">
+          <div className={styles.chartSection}>
+            <div className={styles.chartToolbar}>
+              <Text size="xs" color="secondary" className={styles.chartPeriodLabel}>
                 グラフ表示期間
               </Text>
-              <div className="meal-log-range-picker" role="group" aria-label="カロリー推移の表示期間">
+              <div className={styles.rangePicker} role="group" aria-label="カロリー推移の表示期間">
                 {TREND_RANGE_OPTIONS.map((option) => {
                   const isActive = option.value === selectedRange;
 
@@ -146,7 +147,7 @@ export function MealLogView({ entriesByDate, sortedDates, targetCalories, onDele
                       key={option.value}
                       variant="ghost"
                       size="sm"
-                      className="meal-log-range-button"
+                      className={styles.rangeButton}
                       data-active={isActive ? "true" : "false"}
                       aria-pressed={isActive}
                       onClick={() => setSelectedRange(option.value)}
@@ -159,14 +160,14 @@ export function MealLogView({ entriesByDate, sortedDates, targetCalories, onDele
             </div>
 
             {allCalorieTrend.length > 0 ? (
-              <div className="meal-log-chart-section">
+              <div className={styles.chartSection}>
                 {visibleCalorieTrend.length > 0 ? (
                   <MealLogCaloriesChart
                     data={visibleCalorieTrend}
                     targetCalories={targetCalories}
                   />
                 ) : (
-                  <div className="meal-log-chart-empty">
+                  <div className={styles.chartEmpty}>
                     <Text size="sm" weight="bold">この期間のカロリー推移はまだない</Text>
                     <Text size="sm" color="secondary">
                       {visibleDates.length === 0
@@ -177,13 +178,13 @@ export function MealLogView({ entriesByDate, sortedDates, targetCalories, onDele
                 )}
 
                 {visibleCalorieTrend.length > 0 && visibleCalorieTrend.length < visibleDates.length && (
-                  <Text size="xs" color="secondary" className="meal-log-chart-hint">
+                  <Text size="xs" color="secondary" className={styles.chartHint}>
                     カロリー未入力の記録日は、推移グラフから除外してる。
                   </Text>
                 )}
               </div>
             ) : (
-              <div className="meal-log-chart-empty">
+              <div className={styles.chartEmpty}>
                 <Text size="sm" weight="bold">カロリー推移はまだ表示できない</Text>
                 <Text size="sm" color="secondary">
                   カロリー付きの食事記録を1件以上追加すると、ここに日別グラフが出る。
@@ -196,18 +197,18 @@ export function MealLogView({ entriesByDate, sortedDates, targetCalories, onDele
             const dayEntries = entriesByDate[date] ?? [];
             const dayTotal = calcDayCalories(dayEntries);
             return (
-              <div key={date} className="meal-log-day">
-                <div className="meal-log-day-header">
-                  <Text size="sm" weight="bold" className="meal-log-day-label">
+              <div key={date} className={styles.day}>
+                <div className={styles.dayHeader}>
+                  <Text size="sm" weight="bold" className={styles.dayLabel}>
                     {formatDisplayDate(date)}
                   </Text>
                   {dayTotal != null && (
-                    <span className="meal-log-day-total">{dayTotal.toLocaleString()} kcal</span>
+                    <span className={styles.dayTotal}>{dayTotal.toLocaleString()} kcal</span>
                   )}
                 </div>
                 <Stack gap="2">
                   {dayEntries.map((entry) => (
-                    <div key={entry.id} className="meal-log-entry">
+                    <div key={entry.id} className={styles.entry}>
                       <Badge
                         variant="subtle"
                         color={MEAL_TYPE_COLOR[entry.mealType]}
@@ -215,15 +216,16 @@ export function MealLogView({ entriesByDate, sortedDates, targetCalories, onDele
                       >
                         {entry.mealType}
                       </Badge>
-                      <Text size="sm" style={{ flex: 1 }}>
+                      <Text size="sm" className={styles.entryText} style={{ flex: 1 }}>
                         {entry.description}
                       </Text>
                       {entry.calories != null && (
-                        <span className="meal-log-cal">{entry.calories} kcal</span>
+                        <span className={styles.entryCal}>{entry.calories} kcal</span>
                       )}
                       <Button
                         variant="ghost"
                         size="sm"
+                        className={styles.deleteBtn}
                         onClick={() => onDelete(entry.id)}
                         aria-label="削除"
                       >

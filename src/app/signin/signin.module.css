@@ -1,0 +1,90 @@
+.pageSection {
+  display: flex;
+  align-items: center;
+  min-height: 100dvh;
+}
+
+.pageShell {
+  width: min(100%, 34rem);
+  margin: 0 auto;
+  padding: clamp(1rem, 4vw, 3rem) 0;
+}
+
+.card {
+  border-radius: 32px !important;
+  border: 1px solid var(--stella-color-void-muted);
+  background:
+    radial-gradient(circle at top, var(--stella-color-cosmos-50), transparent 48%),
+    var(--stella-color-void-surface);
+  box-shadow: var(--stella-shadow-lg);
+}
+
+.cardHeader {
+  align-items: center;
+  text-align: center;
+  gap: var(--stella-spacing-4, 1rem);
+}
+
+.iconWrap {
+  width: 4.5rem;
+  height: 4.5rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 1.5rem;
+  background: var(--stella-color-cosmos-50);
+  color: var(--stella-color-cosmos-600);
+}
+
+.icon {
+  width: 2.5rem;
+  height: 2.5rem;
+}
+
+.description {
+  max-width: 30ch;
+}
+
+.cardContent {
+  display: flex;
+  flex-direction: column;
+  gap: var(--stella-spacing-4, 1rem);
+}
+
+.actionForm {
+  width: 100%;
+}
+
+.primaryButton {
+  width: 100%;
+  min-height: 3rem;
+  border-radius: 999px !important;
+}
+
+.configNotice {
+  display: flex;
+  flex-direction: column;
+  gap: var(--stella-spacing-2, 0.5rem);
+  padding: 1rem;
+  border: 1px dashed var(--stella-color-void-muted);
+  border-radius: 20px;
+  background: var(--stella-color-void-base);
+}
+
+.footnote {
+  text-align: center;
+}
+
+@media (max-width: 720px) {
+  .pageSection {
+    min-height: auto;
+  }
+
+  .pageShell {
+    padding: 1rem 0 2rem;
+  }
+
+  .card {
+    border-radius: 24px !important;
+  }
+}

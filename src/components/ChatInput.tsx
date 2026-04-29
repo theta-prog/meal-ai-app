@@ -2,6 +2,7 @@
 
 import { useRef, KeyboardEvent } from "react";
 import { Button } from "@stella-ds/react";
+import styles from "./ChatInput.module.css";
 
 interface ChatInputProps {
   onSend: (text: string) => void;
@@ -27,10 +28,10 @@ export function ChatInput({ onSend, isLoading, disabled }: ChatInputProps) {
   };
 
   return (
-    <div className="chat-input-row">
+    <div className={styles.inputRow}>
       <textarea
         ref={ref}
-        className="chat-textarea"
+        className={styles.textarea}
         placeholder={disabled ? "目標を設定してから話しかけてください" : "メッセージを入力… (Enter で送信、Shift+Enter で改行)"}
         onKeyDown={handleKeyDown}
         disabled={isLoading || disabled}
@@ -38,6 +39,7 @@ export function ChatInput({ onSend, isLoading, disabled }: ChatInputProps) {
       />
       <Button
         variant="solid"
+        size="sm"
         onClick={handleSend}
         disabled={isLoading || disabled}
         loading={isLoading}

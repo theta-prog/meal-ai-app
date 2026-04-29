@@ -1,0 +1,81 @@
+/* ============================================================
+   Gallery tabs
+   ============================================================ */
+.tabsList {
+  align-self: flex-start;
+  min-width: 0;
+}
+
+.tabsTrigger {
+  min-width: 0;
+}
+
+.tabCount {
+  margin-left: var(--stella-spacing-1, 0.25rem);
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.content {
+  padding-top: var(--stella-spacing-2, 0.5rem);
+}
+
+/* ============================================================
+   Recipe / shopping-list card
+   ============================================================ */
+.cardHeaderRow,
+.cardMeta,
+.cardActions {
+  min-width: 0;
+}
+
+.cardTitle {
+  line-height: 1.28;
+}
+
+.expandedContent {
+  background: var(--stella-color-void-base);
+  border-top: 1px solid var(--stella-color-void-overlay);
+}
+
+.cardFooter {
+  width: 100%;
+}
+
+/* ============================================================
+   Mobile
+   ============================================================ */
+@media (max-width: 720px) {
+  .tabsList {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-self: stretch;
+  }
+
+  .tabsTrigger {
+    justify-content: center;
+    white-space: nowrap;
+    text-align: center;
+  }
+
+  .cardTitle {
+    font-size: 0.875rem !important;
+  }
+
+  .cardHeaderRow,
+  .cardActions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .cardMeta {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .cardActions > button {
+    width: 100%;
+    justify-content: center;
+  }
+}

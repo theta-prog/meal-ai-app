@@ -1,36 +1,53 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Meal AI App
 
-## Getting Started
+食事プラン提案、レシピ保存、食事記録をまとめた Next.js アプリです。
 
-First, run the development server:
+設計メモは [docs/oauth-backend-notes.md](docs/oauth-backend-notes.md) を参照。
+
+## セットアップ
+
+1. 依存をインストール
+
+```bash
+npm install
+```
+
+2. `.env.local` を作成して、最低限次の値を設定
+
+```bash
+AUTH_GOOGLE_ID=
+AUTH_GOOGLE_SECRET=
+AUTH_SECRET=
+GOOGLE_GENERATIVE_AI_API_KEY=
+GEMINI_API_KEY=
+```
+
+3. Google Cloud Console の OAuth 設定で、承認済みリダイレクト URI に次を追加
+
+```text
+http://localhost:3000/api/auth/callback/google
+```
+
+4. 開発サーバーを起動
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+5. 型チェック
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+npm run typecheck
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 認証まわり
 
-## Learn More
+- 未認証ユーザーは `/signin` にリダイレクトされます。
+- `/api/chat` と `/api/meal-suggestions` は未認証時に 401 を返します。
+- `.env.local` に OAuth 設定がない場合、サインイン画面に案内メッセージが表示されます。
 
-To learn more about Next.js, take a look at the following resources:
+## 補足
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Next.js 16 の `proxy.ts` を使ってページ側の認証導線を制御しています。
+- Auth.js は `next-auth@beta` を使用しています。
+- 現在の保存データは localStorage ベースです。DB 導入の次段メモは [docs/oauth-backend-notes.md](docs/oauth-backend-notes.md) にまとめています。

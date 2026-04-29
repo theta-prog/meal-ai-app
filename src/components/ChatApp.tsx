@@ -28,6 +28,7 @@ import { ChatInput } from "@/components/ChatInput";
 import { QuickActions } from "@/components/QuickActions";
 import { RecipeGallery } from "@/components/RecipeGallery";
 import { MealLogView } from "@/components/MealLogView";
+import styles from "./ChatApp.module.css";
 
 export function ChatApp() {
   const { goal, saveGoal, isLoaded } = useUserGoal();
@@ -68,25 +69,25 @@ export function ChatApp() {
       />
 
       <Section size="md" style={{ maxWidth: "920px", margin: "0 auto" }}>
-        <div className="app-section">
-          <div className="chat-layout">
-            <div className="app-shell">
-              <Header className="app-header">
-                <HeaderBrand className="app-header-brand">
-                  <div className="app-header-intro">
-                    <div className="app-mark" aria-hidden="true">
-                      <ChefHatIcon className="app-mark-icon" />
+        <div className={styles.appSection}>
+          <div className={styles.chatLayout}>
+            <div className={styles.appShell}>
+              <Header className={styles.appHeader}>
+                <HeaderBrand className={styles.appHeaderBrand}>
+                  <div className={styles.appHeaderIntro}>
+                    <div className={styles.appMark} aria-hidden="true">
+                      <ChefHatIcon className={styles.appMarkIcon} />
                     </div>
-                    <div className="app-header-copy">
-                      <Badge variant="subtle" color="default" size="sm" className="app-header-badge">
+                    <div className={styles.appHeaderCopy}>
+                      <Badge variant="subtle" color="default" size="sm" className={styles.appHeaderBadge}>
                         Meal AI
                       </Badge>
                       <Heading level={1} size="lg">魔法のパティシエ</Heading>
-                      <Text size="sm" color="secondary" className="app-header-note">
+                      <Text size="sm" color="secondary" className={styles.appHeaderNote}>
                         目標に合わせて、毎日の食事をやさしく整えるメニューコンシェルジュ
                       </Text>
                       {goal && (
-                        <Stack direction="horizontal" gap="2" align="center" className="app-header-metrics">
+                        <Stack direction="horizontal" gap="2" align="center" className={styles.appHeaderMetrics}>
                           <Badge variant="subtle" color="default" size="sm">
                             {modeLabel}
                           </Badge>
@@ -99,11 +100,11 @@ export function ChatApp() {
                     </div>
                   </div>
                 </HeaderBrand>
-                <HeaderActions className="app-header-actions">
+                <HeaderActions className={styles.appHeaderActions}>
                   <Button
                     variant="ghost"
                     size="sm"
-                    className="app-header-action"
+                    className={styles.appHeaderAction}
                     onClick={() => setGoalSetupOpen(true)}
                   >
                     目標を編集
@@ -113,32 +114,36 @@ export function ChatApp() {
 
               <Tabs
                 defaultValue="chat"
-                variant="line"
-                className="app-tabs"
+                variant="solid"
+                className={styles.appTabs}
                 style={{ flex: 1, display: "flex", flexDirection: "column", minHeight: 0 }}
               >
-                <TabsList className="app-tabs-list">
-                  <TabsTrigger value="chat" className="app-tabs-trigger">チャット</TabsTrigger>
-                  <TabsTrigger value="gallery" className="app-tabs-trigger">
-                ギャラリー
-                {recipes.length + shoppingLists.length > 0 && (
-                  <span className="tab-count">{recipes.length + shoppingLists.length}</span>
-                )}
+                <TabsList className={styles.appTabsList}>
+                  <TabsTrigger value="chat" className={styles.appTabsTrigger}>チャット</TabsTrigger>
+                  <TabsTrigger value="gallery" className={styles.appTabsTrigger}>
+                    ギャラリー
+                    {recipes.length + shoppingLists.length > 0 && (
+                      <Badge variant="subtle" color="primary" size="sm" className={styles.tabCount}>
+                        {recipes.length + shoppingLists.length}
+                      </Badge>
+                    )}
                   </TabsTrigger>
-                  <TabsTrigger value="log" className="app-tabs-trigger">
-                食事記録
-                {sortedDates.length > 0 && (
-                  <span className="tab-count">{sortedDates.length}日</span>
-                )}
+                  <TabsTrigger value="log" className={styles.appTabsTrigger}>
+                    食事記録
+                    {sortedDates.length > 0 && (
+                      <Badge variant="subtle" color="primary" size="sm" className={styles.tabCount}>
+                        {sortedDates.length}日
+                      </Badge>
+                    )}
                   </TabsTrigger>
                 </TabsList>
 
                 <TabsContent
                   value="chat"
-                  className="app-tabs-content app-tabs-content--chat"
+                  className={`${styles.appTabsContent} ${styles.appTabsContentChat}`}
                   style={{ flex: 1, display: "flex", flexDirection: "column", minHeight: 0 }}
                 >
-                  <main className="chat-main">
+                  <main className={styles.chatMain}>
                     <ChatWindow
                       messages={messages}
                       isLoading={isLoading}
@@ -146,7 +151,7 @@ export function ChatApp() {
                       onSaveMessage={saveRecipe}
                     />
                   </main>
-                  <footer className="chat-footer">
+                  <footer className={styles.chatFooter}>
                     <QuickActions onSelect={handleSend} disabled={isLoading || !goal} />
                     <ChatInput
                       onSend={handleSend}
@@ -158,7 +163,7 @@ export function ChatApp() {
 
                 <TabsContent
                   value="gallery"
-                  className="app-tabs-content app-tabs-content--panel"
+                  className={`${styles.appTabsContent} ${styles.appTabsContentPanel}`}
                   style={{ flex: 1, overflowY: "auto" }}
                 >
                   <RecipeGallery
@@ -171,7 +176,7 @@ export function ChatApp() {
 
                 <TabsContent
                   value="log"
-                  className="app-tabs-content app-tabs-content--panel"
+                  className={`${styles.appTabsContent} ${styles.appTabsContentPanel}`}
                   style={{ flex: 1, overflowY: "auto" }}
                 >
                   <MealLogView

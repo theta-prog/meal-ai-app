@@ -21,6 +21,7 @@ import {
   Text,
 } from "@stella-ds/react";
 import type { MealLogEntry } from "@/types/storage";
+import styles from "./LogMealDialog.module.css";
 
 const MEAL_TYPES = ["朝食", "昼食", "夕食", "間食", "その他"] as const;
 
@@ -93,39 +94,34 @@ export function LogMealDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent showClose className="meal-log-dialog">
-        <DialogHeader className="meal-log-dialog-header">
-          <DialogTitle className="meal-log-dialog-title">食事を記録する</DialogTitle>
-          <DialogDescription className="meal-log-dialog-description">
-            今日食べたものを記録しましょう
-          </DialogDescription>
+      <DialogContent showClose className={styles.dialog}>
+        <DialogHeader className={styles.dialogHeader}>
+          <DialogTitle>食事を記録する</DialogTitle>
+          <DialogDescription>今日食べたものを記録しましょう</DialogDescription>
         </DialogHeader>
 
-        <form onSubmit={handleSubmit(onValid)} className="meal-log-dialog-form">
+        <form onSubmit={handleSubmit(onValid)} className={styles.dialogForm}>
           <Stack gap="4">
             <Stack gap="2">
-              <Text size="sm" weight="bold" className="meal-log-field-label">日付</Text>
+              <Text size="sm" weight="bold">日付</Text>
               <Input
                 type="date"
-                className="meal-log-field"
                 {...register("date")}
                 error={errors.date?.message}
               />
             </Stack>
 
             <Stack gap="2">
-              <Text size="sm" weight="bold" className="meal-log-field-label">食事タイプ</Text>
+              <Text size="sm" weight="bold">食事タイプ</Text>
               <Controller
                 name="mealType"
                 control={control}
                 render={({ field }) => (
                   <Select value={field.value} onValueChange={field.onChange}>
-                    <SelectTrigger className="meal-log-field" error={errors.mealType?.message} />
-                    <SelectContent className="meal-log-select-content">
+                    <SelectTrigger error={errors.mealType?.message} />
+                    <SelectContent className={styles.selectContent} data-theme="light">
                       {MEAL_TYPES.map((type) => (
-                        <SelectItem key={type} value={type} className="meal-log-select-item">
-                          {type}
-                        </SelectItem>
+                        <SelectItem key={type} value={type}>{type}</SelectItem>
                       ))}
                     </SelectContent>
                   </Select>
@@ -134,30 +130,28 @@ export function LogMealDialog({
             </Stack>
 
             <Stack gap="2">
-              <Text size="sm" weight="bold" className="meal-log-field-label">内容</Text>
+              <Text size="sm" weight="bold">内容</Text>
               <Input
                 placeholder="例: 鶏むね肉のソテー、サラダ"
-                className="meal-log-field"
                 {...register("description")}
                 error={errors.description?.message}
               />
             </Stack>
 
             <Stack gap="2">
-              <Text size="sm" weight="bold" className="meal-log-field-label">カロリー（任意）</Text>
+              <Text size="sm" weight="bold">カロリー（任意）</Text>
               <Input
                 type="number"
                 placeholder="例: 480"
-                className="meal-log-field"
                 {...register("calories")}
               />
             </Stack>
 
-            <DialogFooter className="meal-log-dialog-footer">
-              <Button type="button" variant="ghost" className="meal-log-dialog-cancel" onClick={() => onOpenChange(false)}>
+            <DialogFooter className={styles.dialogFooter}>
+              <Button type="button" variant="ghost" className={styles.cancelBtn} onClick={() => onOpenChange(false)}>
                 キャンセル
               </Button>
-              <Button type="submit" variant="solid" className="meal-log-dialog-submit">
+              <Button type="submit" variant="solid" className={styles.submitBtn}>
                 記録する
               </Button>
             </DialogFooter>

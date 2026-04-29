@@ -1,0 +1,101 @@
+/* ============================================================
+   Message layout
+   ============================================================ */
+.message {
+  display: flex;
+  flex-direction: column;
+  gap: var(--stella-spacing-1, 0.25rem);
+}
+
+.userMessage {
+  align-items: flex-end;
+}
+
+.assistantMessage {
+  align-items: flex-start;
+}
+
+.bubble {
+  border-radius: var(--stella-radius-lg, 12px);
+}
+
+.userBubble {
+  max-width: 72%;
+  background: var(--stella-color-cosmos-50);
+  border: 1px solid var(--stella-color-void-muted);
+  border-bottom-right-radius: var(--stella-radius-sm, 4px);
+  padding: var(--stella-spacing-3, 0.75rem) var(--stella-spacing-4, 1rem);
+}
+
+.assistantBubble {
+  width: 100%;
+  background: var(--stella-color-void-surface);
+  border: 1px solid var(--stella-color-void-muted);
+  border-top-left-radius: var(--stella-radius-sm, 4px);
+  padding: var(--stella-spacing-4, 1rem) var(--stella-spacing-5, 1.25rem);
+}
+
+.bubbleText {
+  margin: 0;
+  font-size: var(--stella-typography-fontSize-sm, 0.875rem);
+  line-height: 1.6;
+  color: var(--stella-color-starlight-primary, #0f172a);
+}
+
+.chefLabel {
+  display: flex;
+  align-items: center;
+  gap: var(--stella-spacing-1, 0.25rem);
+  margin-bottom: var(--stella-spacing-1, 0.25rem);
+  padding-left: var(--stella-spacing-1, 0.25rem);
+}
+
+.chefIcon {
+  width: 0.9rem;
+  height: 0.9rem;
+  display: block;
+  flex-shrink: 0;
+  color: var(--stella-color-cosmos-600);
+}
+
+.chefName {
+  font-size: var(--stella-typography-fontSize-xs, 0.75rem);
+  font-weight: var(--stella-typography-fontWeight-semibold, 600);
+  color: var(--stella-color-cosmos-600);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+/* ============================================================
+   Save button — outline → nova tint when saved
+   ============================================================ */
+button.saveBtn {
+  margin-top: var(--stella-spacing-3, 0.75rem) !important;
+  border-color: var(--stella-color-cosmos-200) !important;
+  color: var(--stella-color-cosmos-600) !important;
+  border-radius: var(--stella-radius-full, 9999px) !important;
+  font-size: var(--stella-typography-fontSize-xs, 0.75rem) !important;
+}
+
+button.saveBtn:hover:not(:disabled) {
+  background: var(--stella-color-cosmos-100) !important;
+}
+
+button.saveBtnSaved {
+  color: var(--stella-color-nova-600) !important;
+  border-color: var(--stella-color-nova-300) !important;
+  cursor: default;
+}
+
+/* ============================================================
+   Mobile
+   ============================================================ */
+@media (max-width: 720px) {
+  .userBubble {
+    max-width: 100%;
+  }
+
+  .assistantBubble {
+    padding: var(--stella-spacing-4, 1rem);
+  }
+}

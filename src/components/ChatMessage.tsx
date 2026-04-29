@@ -7,6 +7,8 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { ChefHatIcon } from "@/components/ChefHatIcon";
 import { detectSavedContentKind } from "@/lib/saved-content";
+import styles from "./ChatMessage.module.css";
+import markdownStyles from "./MarkdownContent.module.css";
 
 interface ChatMessageProps {
   message: UIMessage;
@@ -24,12 +26,17 @@ export function ChatMessage({ message, isStreaming, onSave }: ChatMessageProps) 
   const savedKind = detectSavedContentKind(textContent);
   const saveLabel = savedKind === "shopping-list" ? "＋ 買い物リストに保存" : "＋ レシピに保存";
   const savedLabel = savedKind === "shopping-list" ? "✓ 買い物リスト保存済み" : "✓ レシピ保存済み";
+  const userMessageClassName = `${styles.message} ${styles.userMessage}`;
+  const userBubbleClassName = `${styles.bubble} ${styles.userBubble}`;
+  const assistantMessageClassName = `${styles.message} ${styles.assistantMessage}`;
+  const assistantBubbleClassName = `${styles.bubble} ${styles.assistantBubble}`;
+  const markdownClassName = `${markdownStyles.markdown}${isStreaming ? ` ${markdownStyles.streaming}` : ""}`;
 
   if (message.role === "user") {
     return (
-      <div className="chat-msg chat-msg--user">
-        <div className="chat-bubble chat-bubble--user">
-          <p className="chat-bubble-text">{textContent}</p>
+      <div className={userMessageClassName}>
+        <div className={userBubbleClassName}>
+          <p className={styles.bubbleText}>{textContent}</p>
         </div>
       </div>
     );
@@ -42,39 +49,39 @@ export function ChatMessage({ message, isStreaming, onSave }: ChatMessageProps) 
   };
 
   return (
-    <div className="chat-msg chat-msg--assistant">
-      <div className="chat-chef-label">
-        <ChefHatIcon className="chat-chef-icon" />
-        <span className="chat-chef-name">パティシエ</span>
+    <div className={assistantMessageClassName}>
+      <div className={styles.chefLabel}>
+        <ChefHatIcon className={styles.chefIcon} />
+        <span className={styles.chefName}>パティシエ</span>
       </div>
-      <div className={`chat-bubble chat-bubble--assistant${isStreaming ? " chat-bubble--streaming" : ""}`}>
-        <div className="chat-markdown">
+      <div className={assistantBubbleClassName}>
+        <div className={markdownClassName}>
           <ReactMarkdown
             remarkPlugins={[remarkGfm]}
             components={{
-              h1: ({ children }) => <h1 className="md-h1">{children}</h1>,
-              h2: ({ children }) => <h2 className="md-h2">{children}</h2>,
-              h3: ({ children }) => <h3 className="md-h3">{children}</h3>,
-              p: ({ children }) => <p className="md-p">{children}</p>,
-              strong: ({ children }) => <strong className="md-strong">{children}</strong>,
-              ul: ({ children }) => <ul className="md-ul">{children}</ul>,
-              ol: ({ children }) => <ol className="md-ol">{children}</ol>,
-              li: ({ children }) => <li className="md-li">{children}</li>,
+              h1: ({ children }) => <h1 className={markdownStyles.h1}>{children}</h1>,
+              h2: ({ children }) => <h2 className={markdownStyles.h2}>{children}</h2>,
+              h3: ({ children }) => <h3 className={markdownStyles.h3}>{children}</h3>,
+              p: ({ children }) => <p className={markdownStyles.paragraph}>{children}</p>,
+              strong: ({ children }) => <strong className={markdownStyles.strong}>{children}</strong>,
+              ul: ({ children }) => <ul className={markdownStyles.unorderedList}>{children}</ul>,
+              ol: ({ children }) => <ol className={markdownStyles.orderedList}>{children}</ol>,
+              li: ({ children }) => <li className={markdownStyles.listItem}>{children}</li>,
               code: ({ children, className }) => {
                 const isBlock = className?.includes("language-");
                 return isBlock
-                  ? <code className="md-code-block">{children}</code>
-                  : <code className="md-code">{children}</code>;
+                  ? <code className={markdownStyles.codeBlock}>{children}</code>
+                  : <code className={markdownStyles.inlineCode}>{children}</code>;
               },
-              pre: ({ children }) => <pre className="md-pre">{children}</pre>,
+              pre: ({ children }) => <pre className={markdownStyles.preformatted}>{children}</pre>,
               table: ({ children }) => (
-                <div className="md-table-wrap">
-                  <table className="md-table">{children}</table>
+                <div className={markdownStyles.tableWrap}>
+                  <table className={markdownStyles.table}>{children}</table>
                 </div>
               ),
-              thead: ({ children }) => <thead className="md-thead">{children}</thead>,
-              th: ({ children }) => <th className="md-th">{children}</th>,
-              td: ({ children }) => <td className="md-td">{children}</td>,
+              thead: ({ children }) => <thead className={markdownStyles.thead}>{children}</thead>,
+              th: ({ children }) => <th className={markdownStyles.th}>{children}</th>,
+              td: ({ children }) => <td className={markdownStyles.td}>{children}</td>,
             }}
           >
             {textContent}
@@ -85,7 +92,7 @@ export function ChatMessage({ message, isStreaming, onSave }: ChatMessageProps) 
           <Button
             variant="outline"
             size="sm"
-            className={`save-btn${saved ? " save-btn--saved" : ""}`}
+            className={saved ? `${styles.saveBtn} ${styles.saveBtnSaved}` : styles.saveBtn}
             onClick={handleSave}
             disabled={saved}
             type="button"

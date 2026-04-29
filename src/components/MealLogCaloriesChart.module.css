@@ -1,0 +1,118 @@
+/* ============================================================
+   Chart card shell
+   ============================================================ */
+.chartShell {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(1rem, 2vw, 1.35rem);
+  border: 1px solid var(--stella-color-void-muted);
+  border-radius: 22px;
+  background: var(--stella-color-void-surface);
+  box-shadow: var(--stella-shadow-md);
+}
+
+.chartCopy {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--stella-spacing-4, 1rem);
+  margin-bottom: var(--stella-spacing-4, 1rem);
+}
+
+.chartKicker {
+  margin: 0 0 0.3rem;
+  color: var(--stella-color-cosmos-600);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.chartTitle {
+  margin: 0;
+  color: var(--stella-color-starlight-primary, #0f172a);
+  font-size: clamp(1.05rem, 2vw, 1.25rem);
+  font-weight: 700;
+}
+
+.chartNote {
+  margin: 0.4rem 0 0;
+  max-width: 34rem;
+  color: var(--stella-color-starlight-secondary, #475569);
+  font-size: var(--stella-typography-fontSize-sm, 0.875rem);
+  line-height: 1.6;
+}
+
+.chartTarget {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.55rem 0.8rem;
+  border: 1px solid var(--stella-color-cosmos-200);
+  border-radius: 999px;
+  background: var(--stella-color-cosmos-50);
+  color: var(--stella-color-cosmos-600);
+  font-size: 0.78rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.chartTargetDot {
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: 999px;
+  background: var(--stella-color-cosmos-500);
+}
+
+.chartStats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.75rem;
+  margin-bottom: var(--stella-spacing-4, 1rem);
+}
+
+.chartStat {
+  padding: 0.8rem 0.9rem;
+  border: 1px solid var(--stella-color-void-muted);
+  border-radius: 16px;
+  background: var(--stella-color-void-base);
+}
+
+.chartStatLabel {
+  display: block;
+  margin-bottom: 0.25rem;
+  color: var(--stella-color-starlight-secondary, #64748b);
+  font-size: 0.72rem;
+}
+
+.chartStatValue {
+  color: var(--stella-color-starlight-primary, #0f172a);
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.chartCanvas {
+  width: 100%;
+  height: 260px;
+}
+
+/* ============================================================
+   Mobile
+   ============================================================ */
+@media (max-width: 720px) {
+  .chartCopy {
+    flex-direction: column;
+  }
+
+  .chartTarget {
+    white-space: normal;
+  }
+
+  .chartStats {
+    grid-template-columns: 1fr;
+  }
+
+  .chartCanvas {
+    height: 220px;
+  }
+}
