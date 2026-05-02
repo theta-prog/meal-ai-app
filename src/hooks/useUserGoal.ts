@@ -2,7 +2,6 @@
 
 import { useState, useEffect, useCallback } from "react";
 import type { GoalMode, GoalSex, UserGoal } from "@/types/chat";
-import { GOAL_STORAGE_KEY } from "@/types/chat";
 import {
   calcWeightLossCalories,
   calcBulkCalories,
@@ -21,7 +20,6 @@ function isGoalSex(value: unknown): value is GoalSex {
 
 function isStoredGoal(value: unknown): value is UserGoal {
   if (!value || typeof value !== "object") return false;
-
   const goal = value as Record<string, unknown>;
   return (
     isGoalMode(goal.mode) &&
@@ -38,21 +36,16 @@ export function useUserGoal() {
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
-    try {
-      const raw = localStorage.getItem(GOAL_STORAGE_KEY);
-      if (raw) {
-        const parsed = JSON.parse(raw) as unknown;
-        if (isStoredGoal(parsed)) {
-          setGoalState(parsed);
-        }
-      }
-    } catch {
-      // corrupted storage — ignore
-    }
-    setIsLoaded(true);
+    fetch("/api/goals")
+      .then((r) => r.json())
+      .then((data: unknown) => {
+        if (isStoredGoal(data)) setGoalState(data);
+      })
+      .catch(() => {/* ネットワークエラーは無視して未設定扱い */})
+      .finally(() => setIsLoaded(true));
   }, []);
 
-  const saveGoal = useCallback((input: GoalInput) => {
+  const saveGoal = useCallback(async (input: GoalInput) => {
     let targetCalories: number;
     let proteinTargetG: number | undefined;
 
@@ -69,10 +62,7 @@ export function useUserGoal() {
         targetWeight: input.targetWeight,
         timeframeWeeks: input.timeframeWeeks,
       });
-    } else if (
-      input.mode === "bulk" &&
-      input.trainingDaysPerWeek != null
-    ) {
+    } else if (input.mode === "bulk" && input.trainingDaysPerWeek != null) {
       const bulk = calcBulkCalories({
         sex: input.sex,
         age: input.age,
@@ -92,12 +82,18 @@ export function useUserGoal() {
     }
 
     const full: UserGoal = { ...input, targetCalories, proteinTargetG };
-    localStorage.setItem(GOAL_STORAGE_KEY, JSON.stringify(full));
+
+    await fetch("/api/goals", {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(full),
+    });
+
     setGoalState(full);
   }, []);
 
-  const clearGoal = useCallback(() => {
-    localStorage.removeItem(GOAL_STORAGE_KEY);
+  const clearGoal = useCallback(async () => {
+    await fetch("/api/goals", { method: "DELETE" });
     setGoalState(null);
   }, []);
 

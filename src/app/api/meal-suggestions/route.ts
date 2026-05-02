@@ -4,9 +4,6 @@ import { auth } from "@/auth";
 import { generateMealPlan } from "@/lib/gemini";
 import type { MealGoal } from "@/types/meal";
 
-// Node.js runtime: @google/genai の node ビルドを正しく使うため
-// Cloudflare Pages では nodejs_compat フラグを有効にすること
-export const runtime = "nodejs";
 
 const weightModeSchema = z.object({
   mode: z.literal("weight"),
@@ -117,9 +114,9 @@ export async function POST(request: NextRequest) {
     const message = err instanceof Error ? err.message : String(err);
     console.error("Gemini error:", message);
 
-    if (message.includes("GEMINI_API_KEY")) {
+    if (message.includes("GOOGLE_GENERATIVE_AI_API_KEY") || message.includes("API key")) {
       return NextResponse.json(
-        { error: "APIキーが設定されていません。.env.local に GEMINI_API_KEY を設定してサーバーを再起動してください。" },
+        { error: "APIキーが設定されていません。.env.local に GOOGLE_GENERATIVE_AI_API_KEY を設定してサーバーを再起動してください。" },
         { status: 503 }
       );
     }

@@ -1,17 +1,7 @@
-import { GoogleGenAI } from "@google/genai";
+import { google } from "@ai-sdk/google";
+import { generateText } from "ai";
 import { z } from "zod";
 import type { MealGoal, MealPlanResponse } from "@/types/meal";
-
-// 遅延初期化: API キー未設定のとき明確なエラーを返す
-function getAI(): GoogleGenAI {
-  const key = process.env.GEMINI_API_KEY;
-  if (!key) {
-    throw new Error(
-      "GEMINI_API_KEY が設定されていません。.env.local に設定してください。"
-    );
-  }
-  return new GoogleGenAI({ apiKey: key });
-}
 
 const mealItemSchema = z.object({
   name: z.string(),
@@ -132,14 +122,14 @@ export async function generateMealPlan(
 ): Promise<MealPlanResponse> {
   const prompt = buildPrompt(targetCalories, opts);
 
-  const response = await getAI().models.generateContent({
-    model: "gemini-3.1-flash-lite-preview",
-    contents: prompt,
+  const { text } = await generateText({
+    model: google("gemini-2.0-flash"),
+    prompt,
+    maxOutputTokens: 2048,
   });
 
-  const text = response.text;
   if (!text) {
-    throw new Error("Gemini returned empty response");
+    throw new Error("AI returned empty response");
   }
 
   return parseMealPlan(text);

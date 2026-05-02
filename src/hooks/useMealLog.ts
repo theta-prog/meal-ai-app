@@ -2,10 +2,23 @@
 
 import { useState, useEffect, useCallback } from "react";
 import type { MealLogEntry } from "@/types/storage";
-import { MEAL_LOG_KEY } from "@/types/storage";
 
 function todayStr(): string {
   return new Date().toISOString().slice(0, 10);
+}
+
+function toClientEntry(raw: Record<string, unknown>): MealLogEntry {
+  return {
+    id: raw.id as string,
+    loggedAt: raw.loggedAt instanceof Date
+      ? (raw.loggedAt as Date).toISOString()
+      : String(raw.loggedAt),
+    date: raw.date as string,
+    mealType: raw.mealType as MealLogEntry["mealType"],
+    description: raw.description as string,
+    calories: raw.calories != null ? Number(raw.calories) : undefined,
+    recipeId: raw.recipeId as string | undefined,
+  };
 }
 
 export function useMealLog() {
@@ -13,41 +26,37 @@ export function useMealLog() {
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
-    try {
-      const raw = localStorage.getItem(MEAL_LOG_KEY);
-      if (raw) setEntries(JSON.parse(raw) as MealLogEntry[]);
-    } catch {
-      // ignore corrupted data
-    }
-    setIsLoaded(true);
-  }, []);
-
-  const persist = useCallback((next: MealLogEntry[]) => {
-    setEntries(next);
-    localStorage.setItem(MEAL_LOG_KEY, JSON.stringify(next));
+    fetch("/api/meal-log")
+      .then((r) => r.json())
+      .then((data: unknown) => {
+        if (Array.isArray(data)) {
+          setEntries((data as Record<string, unknown>[]).map(toClientEntry));
+        }
+      })
+      .catch(() => {})
+      .finally(() => setIsLoaded(true));
   }, []);
 
   const addEntry = useCallback(
-    (input: Omit<MealLogEntry, "id" | "loggedAt">) => {
-      const entry: MealLogEntry = {
-        ...input,
-        id: crypto.randomUUID(),
-        loggedAt: new Date().toISOString(),
-      };
-      persist([entry, ...entries]);
-      return entry;
+    async (input: Omit<MealLogEntry, "id" | "loggedAt">) => {
+      const loggedAt = new Date().toISOString();
+      const res = await fetch("/api/meal-log", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...input, loggedAt }),
+      });
+      if (!res.ok) return;
+      const created = toClientEntry((await res.json()) as Record<string, unknown>);
+      setEntries((prev) => [created, ...prev]);
     },
-    [entries, persist]
+    []
   );
 
-  const deleteEntry = useCallback(
-    (id: string) => {
-      persist(entries.filter((e) => e.id !== id));
-    },
-    [entries, persist]
-  );
+  const deleteEntry = useCallback(async (id: string) => {
+    await fetch(`/api/meal-log/${id}`, { method: "DELETE" });
+    setEntries((prev) => prev.filter((e) => e.id !== id));
+  }, []);
 
-  // Group entries by date descending
   const entriesByDate = entries.reduce<Record<string, MealLogEntry[]>>(
     (acc, entry) => {
       (acc[entry.date] ??= []).push(entry);
