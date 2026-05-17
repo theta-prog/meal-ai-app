@@ -17,20 +17,21 @@
 
 - 認証は Auth.js + Google OAuth で行っている
 - ページ側は `src/proxy.ts` で未認証アクセスを `/signin` に寄せている
-- API 側は `/api/chat` と `/api/meal-suggestions` で認証チェック済み
-- ただしアプリデータはまだブラウザの localStorage に保存している
+- Auth.js は Drizzle Adapter を通して Postgres を利用している
+- 目標プロフィール、保存したレシピ、食事ログも認証済み API 経由で DB に保存している
 
-現在 localStorage に残しているもの:
+現在 DB に保存しているもの:
 
+- Auth.js の users / accounts / sessions 系データ
 - 目標プロフィール: `src/hooks/useUserGoal.ts`
 - 保存したレシピ/買い物リスト: `src/hooks/useSavedRecipes.ts`
 - 食事ログ: `src/hooks/useMealLog.ts`
 
-この状態では、ログインはできても次の制約が残る:
+ローカル起動時の注意点:
 
-- 別ブラウザ/別端末ではデータが見えない
-- ブラウザストレージを消すとデータも消える
-- サーバー側でユーザー単位の一貫したデータ管理ができない
+- `.env.local` に `DATABASE_URL` が必要
+- 初回セットアップ時は `npm run db:push` でテーブルを作成する
+- DB 接続に失敗すると、プロフィールや保存データの取得に失敗する
 
 ## 次に必要な整備
 

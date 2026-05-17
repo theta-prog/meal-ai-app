@@ -123,7 +123,7 @@ export async function generateMealPlan(
   const prompt = buildPrompt(targetCalories, opts);
 
   const { text } = await generateText({
-    model: google("gemini-2.0-flash"),
+    model: google("gemini-3.1-flash-lite"),
     prompt,
     maxOutputTokens: 2048,
   });

@@ -16,6 +16,19 @@ interface ChatWindowProps {
   onSaveMessage?: (content: string) => void;
 }
 
+function getChatErrorMessage(error: Error): string {
+  try {
+    const payload = JSON.parse(error.message) as { error?: unknown };
+    if (typeof payload.error === "string") {
+      return payload.error;
+    }
+  } catch {
+    // Keep the original message when it is not JSON.
+  }
+
+  return error.message || "AIからの応答に失敗しました。再試行してください。";
+}
+
 export function ChatWindow({ messages, isLoading, error, onSaveMessage }: ChatWindowProps) {
   const bottomRef = useRef<HTMLDivElement>(null);
 
@@ -71,7 +84,7 @@ export function ChatWindow({ messages, isLoading, error, onSaveMessage }: ChatWi
         )}
 
         {error && (
-          <ErrorBanner message={error.message || "AIからの応答に失敗しました。再試行してください。"} />
+          <ErrorBanner message={getChatErrorMessage(error)} />
         )}
       </Stack>
       <div ref={bottomRef} />

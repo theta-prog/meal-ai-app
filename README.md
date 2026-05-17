@@ -15,6 +15,7 @@ npm install
 2. `.env.local` を作成して、最低限次の値を設定
 
 ```bash
+DATABASE_URL=
 AUTH_GOOGLE_ID=
 AUTH_GOOGLE_SECRET=
 AUTH_SECRET=
@@ -28,13 +29,19 @@ GEMINI_API_KEY=
 http://localhost:3000/api/auth/callback/google
 ```
 
-4. 開発サーバーを起動
+4. DB スキーマを反映
+
+```bash
+npm run db:push
+```
+
+5. 開発サーバーを起動
 
 ```bash
 npm run dev
 ```
 
-5. 型チェック
+6. 型チェック
 
 ```bash
 npm run typecheck
@@ -50,4 +57,5 @@ npm run typecheck
 
 - Next.js 16 の `proxy.ts` を使ってページ側の認証導線を制御しています。
 - Auth.js は `next-auth@beta` を使用しています。
-- 現在の保存データは localStorage ベースです。DB 導入の次段メモは [docs/oauth-backend-notes.md](docs/oauth-backend-notes.md) にまとめています。
+- Auth.js とアプリ内データは Postgres + Drizzle 経由で永続化しています。
+- ローカル起動では `DATABASE_URL` の設定と `npm run db:push` が必須です。

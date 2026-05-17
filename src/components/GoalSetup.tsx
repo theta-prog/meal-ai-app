@@ -30,6 +30,7 @@ import {
   calcBulkCalories,
   calcMaintainCalories,
 } from "@/lib/calorie-calc";
+import { ErrorBanner } from "@/components/ErrorBanner";
 import styles from "./GoalSetup.module.css";
 
 const SEX_OPTIONS: Array<{ value: GoalSex; label: string }> = [
@@ -129,19 +130,20 @@ function calcPreviewCalories(values: Partial<FormValues>): number | null {
 
 interface GoalSetupProps {
   initialGoal?: UserGoal | null;
-  onSave: (input: Omit<UserGoal, "targetCalories" | "proteinTargetG">) => void;
+  onSave: (input: Omit<UserGoal, "targetCalories" | "proteinTargetG">) => Promise<void> | void;
   open: boolean;
   onOpenChange: (open: boolean) => void;
+  saveError?: string | null;
 }
 
-export function GoalSetup({ initialGoal, onSave, open, onOpenChange }: GoalSetupProps) {
+export function GoalSetup({ initialGoal, onSave, open, onOpenChange, saveError }: GoalSetupProps) {
   const {
     register,
     handleSubmit,
     watch,
     control,
     reset,
-    formState: { errors, submitCount },
+    formState: { errors, submitCount, isSubmitting },
   } = useForm<FormValues>({
     resolver: zodResolver(schema),
     shouldFocusError: true,
@@ -184,18 +186,22 @@ export function GoalSetup({ initialGoal, onSave, open, onOpenChange }: GoalSetup
     }
   }, [initialGoal, reset]);
 
-  const onValid = (data: FormValues) => {
-    onSave({
-      mode: data.mode,
-      sex: data.sex,
-      age: data.age,
-      heightCm: data.heightCm,
-      currentWeight: data.currentWeight,
-      targetWeight: data.targetWeight,
-      timeframeWeeks: data.timeframeWeeks,
-      trainingDaysPerWeek: data.trainingDaysPerWeek,
-    });
-    onOpenChange(false);
+  const onValid = async (data: FormValues) => {
+    try {
+      await onSave({
+        mode: data.mode,
+        sex: data.sex,
+        age: data.age,
+        heightCm: data.heightCm,
+        currentWeight: data.currentWeight,
+        targetWeight: data.targetWeight,
+        timeframeWeeks: data.timeframeWeeks,
+        trainingDaysPerWeek: data.trainingDaysPerWeek,
+      });
+      onOpenChange(false);
+    } catch {
+      // saveError is surfaced by the parent hook.
+    }
   };
 
   const canClose = initialGoal != null;
@@ -375,6 +381,8 @@ export function GoalSetup({ initialGoal, onSave, open, onOpenChange }: GoalSetup
               </Card>
             )}
 
+            {saveError && <ErrorBanner message={saveError} />}
+
             {submitCount > 0 && firstErrorMessage && (
               <div className={styles.formError} role="alert">
                 <Text size="sm" weight="medium" className={styles.formErrorText}>
@@ -390,11 +398,18 @@ export function GoalSetup({ initialGoal, onSave, open, onOpenChange }: GoalSetup
                   variant="ghost"
                   className={styles.cancelBtn}
                   onClick={() => onOpenChange(false)}
+                  disabled={isSubmitting}
                 >
                   キャンセル
                 </Button>
               )}
-              <Button type="submit" variant="solid" className={styles.submitBtn}>
+              <Button
+                type="submit"
+                variant="solid"
+                className={styles.submitBtn}
+                loading={isSubmitting}
+                disabled={isSubmitting}
+              >
                 設定を保存
               </Button>
             </DialogFooter>

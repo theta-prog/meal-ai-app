@@ -1,21 +1,8 @@
 import { eq } from "drizzle-orm";
-import { z } from "zod";
 import { auth } from "@/auth";
 import { getDb } from "@/db";
 import { userGoals } from "@/db/schema";
-
-const goalSchema = z.object({
-  mode: z.enum(["cut", "bulk", "maintain"]),
-  sex: z.enum(["male", "female"]),
-  age: z.number().int().min(10).max(120),
-  heightCm: z.number().min(100).max(250),
-  currentWeight: z.number().min(20).max(300),
-  targetCalories: z.number().int().min(800).max(5000),
-  proteinTargetG: z.number().int().optional(),
-  targetWeight: z.number().min(20).max(300).optional(),
-  trainingDaysPerWeek: z.number().int().min(1).max(7).optional(),
-  timeframeWeeks: z.number().int().min(1).max(52).optional(),
-});
+import { userGoalSchema } from "@/lib/goal-schema";
 
 export async function GET() {
   const session = await auth();
@@ -44,7 +31,7 @@ export async function PUT(req: Request) {
     return Response.json({ error: "リクエストのJSONが不正です" }, { status: 400 });
   }
 
-  const parsed = goalSchema.safeParse(body);
+  const parsed = userGoalSchema.safeParse(body);
   if (!parsed.success) {
     return Response.json({ error: "入力値が不正です", details: parsed.error.flatten() }, { status: 400 });
   }

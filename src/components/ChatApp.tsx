@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useChat } from "@ai-sdk/react";
 import { DefaultChatTransport } from "ai";
 import {
@@ -28,29 +28,36 @@ import { ChatInput } from "@/components/ChatInput";
 import { QuickActions } from "@/components/QuickActions";
 import { RecipeGallery } from "@/components/RecipeGallery";
 import { MealLogView } from "@/components/MealLogView";
+import { ErrorBanner } from "@/components/ErrorBanner";
 import styles from "./ChatApp.module.css";
 
 export function ChatApp() {
-  const { goal, saveGoal, isLoaded } = useUserGoal();
+  const { goal, saveGoal, isLoaded, goalError } = useUserGoal();
   const [goalSetupOpen, setGoalSetupOpen] = useState(false);
   const { recipes, shoppingLists, saveRecipe, deleteRecipe } = useSavedRecipes();
   const { entriesByDate, sortedDates, addEntry, deleteEntry } = useMealLog();
 
   useEffect(() => {
-    if (isLoaded && !goal) {
+    if (isLoaded && !goal && !goalError) {
       setGoalSetupOpen(true);
     }
-  }, [isLoaded, goal]);
+  }, [isLoaded, goal, goalError]);
+
+  const goalRef = useRef(goal);
+  goalRef.current = goal;
 
   const { messages, sendMessage, status, error } = useChat({
-    transport: new DefaultChatTransport({ api: "/api/chat" }),
+    transport: new DefaultChatTransport({
+      api: "/api/chat",
+      body: () => goalRef.current ? { goal: goalRef.current } : {},
+    }),
   });
 
   const isLoading = status === "streaming" || status === "submitted";
 
   const handleSend = (text: string) => {
     if (!goal || isLoading) return;
-    sendMessage({ text }, { body: { goal } });
+    sendMessage({ text });
   };
 
   if (!isLoaded) return null;
@@ -66,12 +73,15 @@ export function ChatApp() {
         onSave={saveGoal}
         open={goalSetupOpen}
         onOpenChange={setGoalSetupOpen}
+        saveError={goalError}
       />
 
       <Section size="md" style={{ maxWidth: "920px", margin: "0 auto" }}>
         <div className={styles.appSection}>
           <div className={styles.chatLayout}>
             <div className={styles.appShell}>
+              {goalError && <ErrorBanner message={goalError} />}
+
               <Header className={styles.appHeader}>
                 <HeaderBrand className={styles.appHeaderBrand}>
                   <div className={styles.appHeaderIntro}>

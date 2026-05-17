@@ -1,26 +1,13 @@
 import { google } from "@ai-sdk/google";
 import { streamText, convertToModelMessages } from "ai";
 import type { UIMessage } from "ai";
-import { z } from "zod";
 import { auth } from "@/auth";
 import { checkChatGuardrails, extractLatestUserText } from "@/lib/chat-guardrails";
+import { getUserGoalErrorMessage, userGoalSchema } from "@/lib/goal-schema";
 import { buildSystemPrompt } from "@/lib/system-prompt";
 import type { UserGoal } from "@/types/chat";
 
 export const maxDuration = 60;
-
-const goalSchema = z.object({
-  mode: z.enum(["cut", "bulk", "maintain"]),
-  sex: z.enum(["male", "female"]),
-  age: z.number(),
-  heightCm: z.number(),
-  currentWeight: z.number(),
-  targetCalories: z.number(),
-  proteinTargetG: z.number().optional(),
-  targetWeight: z.number().optional(),
-  trainingDaysPerWeek: z.number().optional(),
-  timeframeWeeks: z.number().optional(),
-});
 
 export async function POST(req: Request) {
   const session = await auth();
@@ -46,10 +33,13 @@ export async function POST(req: Request) {
     );
   }
 
-  const parsed = goalSchema.safeParse(goalRaw);
+  const parsed = userGoalSchema.safeParse(goalRaw);
   if (!parsed.success) {
     return Response.json(
-      { error: "目標プロフィールが設定されていません。設定画面でプロフィールを入力してください。" },
+      {
+        error: getUserGoalErrorMessage(parsed.error),
+        details: parsed.error.flatten(),
+      },
       { status: 400 }
     );
   }
@@ -69,7 +59,7 @@ export async function POST(req: Request) {
   try {
     const modelMessages = await convertToModelMessages(messages);
     const result = streamText({
-      model: google("gemini-3-flash-preview"),
+      model: google("gemini-3.1-flash-lite"),
       system: systemPrompt,
       messages: modelMessages,
       maxOutputTokens: 8192,
