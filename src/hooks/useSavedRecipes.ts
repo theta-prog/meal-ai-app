@@ -2,59 +2,50 @@
 
 import { useState, useEffect, useCallback } from "react";
 import type { SavedRecipe } from "@/types/storage";
-import { SAVED_RECIPES_KEY } from "@/types/storage";
-import { detectSavedContentKind, extractSavedContentTitle } from "@/lib/saved-content";
+
+function toClientItem(raw: Record<string, unknown>): SavedRecipe {
+  return {
+    id: raw.id as string,
+    savedAt: raw.savedAt instanceof Date
+      ? (raw.savedAt as Date).toISOString()
+      : String(raw.savedAt),
+    title: raw.title as string,
+    content: raw.content as string,
+    kind: raw.kind as SavedRecipe["kind"],
+  };
+}
 
 export function useSavedRecipes() {
   const [items, setItems] = useState<SavedRecipe[]>([]);
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
-    try {
-      const raw = localStorage.getItem(SAVED_RECIPES_KEY);
-      if (raw) {
-        const parsed = JSON.parse(raw) as Array<Partial<SavedRecipe> & Pick<SavedRecipe, "id" | "savedAt" | "title" | "content">>;
-        setItems(
-          parsed.map((item) => ({
-            ...item,
-            kind: item.kind ?? (detectSavedContentKind(item.content) === "none" ? "recipe" : detectSavedContentKind(item.content)),
-          })) as SavedRecipe[]
-        );
-      }
-    } catch {
-      // ignore corrupted data
-    }
-    setIsLoaded(true);
+    fetch("/api/saved")
+      .then((r) => r.json())
+      .then((data: unknown) => {
+        if (Array.isArray(data)) {
+          setItems((data as Record<string, unknown>[]).map(toClientItem));
+        }
+      })
+      .catch(() => {})
+      .finally(() => setIsLoaded(true));
   }, []);
 
-  const persist = useCallback((next: SavedRecipe[]) => {
-    setItems(next);
-    localStorage.setItem(SAVED_RECIPES_KEY, JSON.stringify(next));
+  const saveRecipe = useCallback(async (content: string) => {
+    const res = await fetch("/api/saved", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ content, savedAt: new Date().toISOString() }),
+    });
+    if (!res.ok) return;
+    const created = toClientItem((await res.json()) as Record<string, unknown>);
+    setItems((prev) => [created, ...prev]);
   }, []);
 
-  const saveRecipe = useCallback(
-    (content: string): SavedRecipe => {
-      const detected = detectSavedContentKind(content);
-      const kind = detected === "none" ? "recipe" : detected;
-      const recipe: SavedRecipe = {
-        id: crypto.randomUUID(),
-        savedAt: new Date().toISOString(),
-        title: extractSavedContentTitle(content, kind),
-        content,
-        kind,
-      };
-      persist([recipe, ...items]);
-      return recipe;
-    },
-    [items, persist]
-  );
-
-  const deleteRecipe = useCallback(
-    (id: string) => {
-      persist(items.filter((item) => item.id !== id));
-    },
-    [items, persist]
-  );
+  const deleteRecipe = useCallback(async (id: string) => {
+    await fetch(`/api/saved/${id}`, { method: "DELETE" });
+    setItems((prev) => prev.filter((item) => item.id !== id));
+  }, []);
 
   const recipes = items.filter((item) => item.kind === "recipe");
   const shoppingLists = items.filter((item) => item.kind === "shopping-list");

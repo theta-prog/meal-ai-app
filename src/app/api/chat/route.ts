@@ -7,7 +7,6 @@ import { checkChatGuardrails, extractLatestUserText } from "@/lib/chat-guardrail
 import { buildSystemPrompt } from "@/lib/system-prompt";
 import type { UserGoal } from "@/types/chat";
 
-export const runtime = "nodejs";
 export const maxDuration = 60;
 
 const goalSchema = z.object({

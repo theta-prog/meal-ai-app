@@ -13,5 +13,3 @@ export interface UserGoal {
   targetCalories: number;
   proteinTargetG?: number;
 }
-
-export const GOAL_STORAGE_KEY = "meal-ai-user-goal" as const;

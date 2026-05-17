@@ -17,6 +17,3 @@ export interface MealLogEntry {
   calories?: number;
   recipeId?: string; // link to saved recipe
 }
-
-export const SAVED_RECIPES_KEY = "meal-ai-saved-recipes" as const;
-export const MEAL_LOG_KEY = "meal-ai-meal-log" as const;
