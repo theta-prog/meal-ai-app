@@ -19,6 +19,7 @@ export const isGoogleAuthConfigured = Boolean(
 export const { handlers, auth, signIn, signOut } = NextAuth({
   adapter: DrizzleAdapter(getDb()),
   secret: authSecret,
+  trustHost: true,
   providers: isGoogleAuthConfigured
     ? [
         Google({

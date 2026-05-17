@@ -1,5 +1,13 @@
+import { redirect } from "next/navigation";
+import { auth } from "@/auth";
 import { ChatApp } from "@/components/ChatApp";
 
-export default function Home() {
+export default async function Home() {
+  const session = await auth();
+
+  if (!session?.user) {
+    redirect("/signin");
+  }
+
   return <ChatApp />;
 }

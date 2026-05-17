@@ -1,0 +1,101 @@
+name: Cloudflare Deploy
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+concurrency:
+  group: cloudflare-deploy-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    env:
+      DATABASE_URL: postgresql://build:build@127.0.0.1:5432/meal_ai_app
+      AUTH_GOOGLE_ID: build-placeholder
+      AUTH_GOOGLE_SECRET: build-placeholder
+      AUTH_SECRET: build-placeholder
+      GOOGLE_GENERATIVE_AI_API_KEY: build-placeholder
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Type check
+        run: npm run typecheck
+
+      - name: Next build
+        run: npm run build
+
+      - name: OpenNext Cloudflare build
+        run: npx opennextjs-cloudflare build
+
+  deploy:
+    if: github.event_name == 'workflow_dispatch' || github.ref == 'refs/heads/main'
+    needs: validate
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build for Cloudflare
+        run: npx opennextjs-cloudflare build
+        env:
+          DATABASE_URL: ${{ secrets['DATABASE_URL'] }}
+          AUTH_GOOGLE_ID: ${{ secrets['AUTH_GOOGLE_ID'] }}
+          AUTH_GOOGLE_SECRET: ${{ secrets['AUTH_GOOGLE_SECRET'] }}
+          AUTH_SECRET: ${{ secrets['AUTH_SECRET'] }}
+          GOOGLE_GENERATIVE_AI_API_KEY: ${{ secrets['GOOGLE_GENERATIVE_AI_API_KEY'] }}
+
+      - name: Deploy to Cloudflare Workers
+        id: deploy
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets['CLOUDFLARE_API_TOKEN'] }}
+          accountId: ${{ secrets['CLOUDFLARE_ACCOUNT_ID'] }}
+          wranglerVersion: "4"
+          packageManager: npm
+          command: deploy
+          secrets: |
+            DATABASE_URL
+            AUTH_GOOGLE_ID
+            AUTH_GOOGLE_SECRET
+            AUTH_SECRET
+            GOOGLE_GENERATIVE_AI_API_KEY
+        env:
+          DATABASE_URL: ${{ secrets['DATABASE_URL'] }}
+          AUTH_GOOGLE_ID: ${{ secrets['AUTH_GOOGLE_ID'] }}
+          AUTH_GOOGLE_SECRET: ${{ secrets['AUTH_GOOGLE_SECRET'] }}
+          AUTH_SECRET: ${{ secrets['AUTH_SECRET'] }}
+          GOOGLE_GENERATIVE_AI_API_KEY: ${{ secrets['GOOGLE_GENERATIVE_AI_API_KEY'] }}
+
+      - name: Show deployment URL
+        run: echo "${{ steps.deploy.outputs.deployment-url }}"
