@@ -76,7 +76,11 @@ export function ChatApp() {
         saveError={goalError}
       />
 
-      <Section size="md" style={{ maxWidth: "920px", margin: "0 auto" }}>
+      <Section
+        size="md"
+        className={styles.pageSection}
+        style={{ maxWidth: "920px", margin: "0 auto" }}
+      >
         <div className={styles.appSection}>
           <div className={styles.chatLayout}>
             <div className={styles.appShell}>
