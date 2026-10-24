@@ -61,15 +61,15 @@ const schema = z
     mode: z.enum(["cut", "bulk", "maintain"]),
     sex: z.enum(["male", "female"], { message: "性別を選択してください" }),
     age: z.coerce
-      .number({ invalid_type_error: "数値を入力してください" })
+      .number({ error: "数値を入力してください" })
       .min(13, "13歳以上で入力してください")
       .max(100, "100歳以下で入力してください"),
     heightCm: z.coerce
-      .number({ invalid_type_error: "数値を入力してください" })
+      .number({ error: "数値を入力してください" })
       .min(120, "120cm以上で入力してください")
       .max(220, "220cm以下で入力してください"),
     currentWeight: z.coerce
-      .number({ invalid_type_error: "数値を入力してください" })
+      .number({ error: "数値を入力してください" })
       .min(20, "20kg以上で入力してください")
       .max(300, "300kg以下で入力してください"),
     targetWeight: z.number().min(20).max(300).optional(),
@@ -91,7 +91,10 @@ const schema = z
 
 type FormValues = z.infer<typeof schema>;
 
-function calcPreviewCalories(values: Partial<FormValues>): number | null {
+function calcPreviewCalories(input: Partial<z.input<typeof schema>>): number | null {
+  const parsed = schema.safeParse(input);
+  if (!parsed.success) return null;
+  const values = parsed.data;
   if (
     !values.mode ||
     !values.sex ||
@@ -144,7 +147,7 @@ export function GoalSetup({ initialGoal, onSave, open, onOpenChange, saveError }
     control,
     reset,
     formState: { errors, submitCount, isSubmitting },
-  } = useForm<FormValues>({
+  } = useForm<z.input<typeof schema>, unknown, FormValues>({
     resolver: zodResolver(schema),
     shouldFocusError: true,
     defaultValues: {

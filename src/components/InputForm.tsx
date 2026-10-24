@@ -22,11 +22,11 @@ import type { MealRequest } from "@/types/meal";
 const weightSchema = z
   .object({
     currentWeight: z.coerce
-      .number({ invalid_type_error: "数値を入力してください" })
+      .number({ error: "数値を入力してください" })
       .min(20, "20kg以上で入力してください")
       .max(300, "300kg以下で入力してください"),
     targetWeight: z.coerce
-      .number({ invalid_type_error: "数値を入力してください" })
+      .number({ error: "数値を入力してください" })
       .min(20, "20kg以上で入力してください")
       .max(300, "300kg以下で入力してください"),
     timeframeWeeks: z.coerce.number().min(1).max(52),
@@ -38,14 +38,14 @@ const weightSchema = z
 
 const caloriesSchema = z.object({
   targetCalories: z.coerce
-    .number({ invalid_type_error: "数値を入力してください" })
+    .number({ error: "数値を入力してください" })
     .min(800, "800kcal以上で入力してください")
     .max(5000, "5000kcal以下で入力してください"),
 });
 
 const bulkSchema = z.object({
   currentWeight: z.coerce
-    .number({ invalid_type_error: "数値を入力してください" })
+    .number({ error: "数値を入力してください" })
     .min(20, "20kg以上で入力してください")
     .max(300, "300kg以下で入力してください"),
   trainingDaysPerWeek: z.coerce.number().min(1).max(7),
@@ -95,7 +95,7 @@ function WeightModeForm({
     handleSubmit,
     setValue,
     formState: { errors },
-  } = useForm<WeightForm>({
+  } = useForm<z.input<typeof weightSchema>, unknown, WeightForm>({
     resolver: zodResolver(weightSchema),
     defaultValues: { timeframeWeeks: 12 },
   });
@@ -176,7 +176,7 @@ function CaloriesModeForm({
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<CaloriesForm>({
+  } = useForm<z.input<typeof caloriesSchema>, unknown, CaloriesForm>({
     resolver: zodResolver(caloriesSchema),
   });
 
@@ -219,7 +219,7 @@ function BulkModeForm({
     handleSubmit,
     setValue,
     formState: { errors },
-  } = useForm<BulkForm>({
+  } = useForm<z.input<typeof bulkSchema>, unknown, BulkForm>({
     resolver: zodResolver(bulkSchema),
     defaultValues: { trainingDaysPerWeek: 3 },
   });

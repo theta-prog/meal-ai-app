@@ -59,7 +59,7 @@ export function LogMealDialog({
     control,
     reset,
     formState: { errors },
-  } = useForm<FormValues>({
+  } = useForm<z.input<typeof schema>, unknown, FormValues>({
     resolver: zodResolver(schema),
     defaultValues: {
       date: defaultDate ?? todayStr,
