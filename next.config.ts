@@ -2,6 +2,8 @@ import { initOpenNextCloudflareForDev } from "@opennextjs/cloudflare";
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  // Keep the TypeScript 5 compiler API for build checks and config loading.
+  experimental: { useTypeScriptCli: false },
   transpilePackages: ["@stella-ds/react"],
 };
 
